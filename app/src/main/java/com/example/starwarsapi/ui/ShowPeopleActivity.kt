@@ -2,10 +2,7 @@ package com.example.starwarsapi.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.starwarsapi.R
 import com.example.starwarsapi.application.onScrollListener
 import com.example.starwarsapi.models.People
@@ -22,10 +19,10 @@ class ShowPeopleActivity : AppCompatActivity() {
     private val viewModel: ShowPeopleActivityViewModel by viewModel()
     private val adapter =  ListAdapter(this, mutableListOf<People>()) { people, view ->
         view.setOnClickListener {}
-        view.namePeople.text = people.name
-        view.genderPeople.text = people.gender
-        view.heightPeople.text = people.height
-        view.massPeople.text = people.mass
+        view.nameInsert.text = people.name
+        view.segundoInsert.text = people.gender
+        view.terceiroInsert.text = people.height
+        view.quartoInsert.text = people.mass
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

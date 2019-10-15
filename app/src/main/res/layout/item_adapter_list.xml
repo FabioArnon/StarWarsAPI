@@ -16,20 +16,20 @@
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
         android:text="@string/nome"
-        app:layout_constraintBottom_toTopOf="@id/gender"
+        app:layout_constraintBottom_toTopOf="@id/segundoText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/namePeople"
+        android:id="@+id/nameInsert"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/genderPeople"
+        app:layout_constraintBottom_toTopOf="@+id/segundoInsert"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toEndOf="@id/name"
@@ -37,7 +37,7 @@
         tools:text="Luke Skywalker" />
 
     <TextView
-        android:id="@+id/gender"
+        android:id="@+id/segundoText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -49,19 +49,19 @@
         app:layout_constraintTop_toBottomOf="@id/name" />
 
     <TextView
-        android:id="@+id/genderPeople"
+        android:id="@+id/segundoInsert"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toEndOf="@id/gender"
-        app:layout_constraintTop_toBottomOf="@+id/namePeople"
+        app:layout_constraintStart_toEndOf="@id/segundoText"
+        app:layout_constraintTop_toBottomOf="@+id/nameInsert"
         tools:text="Male" />
 
     <TextView
-        android:id="@+id/height"
+        android:id="@+id/terceiroText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -70,22 +70,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/gender" />
+        app:layout_constraintTop_toBottomOf="@id/segundoText" />
 
     <TextView
-        android:id="@+id/heightPeople"
+        android:id="@+id/terceiroInsert"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toEndOf="@id/height"
-        app:layout_constraintTop_toBottomOf="@+id/genderPeople"
+        app:layout_constraintStart_toEndOf="@id/terceiroText"
+        app:layout_constraintTop_toBottomOf="@+id/segundoInsert"
         tools:text="172" />
 
     <TextView
-        android:id="@+id/mass"
+        android:id="@+id/quartoText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -94,18 +94,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/height" />
+        app:layout_constraintTop_toBottomOf="@id/terceiroText" />
 
     <TextView
-        android:id="@+id/massPeople"
+        android:id="@+id/quartoInsert"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toEndOf="@id/mass"
-        app:layout_constraintTop_toBottomOf="@+id/heightPeople"
+        app:layout_constraintStart_toEndOf="@id/quartoText"
+        app:layout_constraintTop_toBottomOf="@+id/terceiroInsert"
         tools:text="77" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

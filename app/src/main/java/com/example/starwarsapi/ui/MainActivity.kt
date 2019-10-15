@@ -28,8 +28,14 @@ class MainActivity : AppCompatActivity() {
             openPeopleActivity()
         }
         btMainActivityPlanet.setOnClickListener {
+            openPlanetActivity()
         }
 
+    }
+
+    private fun openPlanetActivity() {
+        val intent = Intent(this, ShowPlanetActivity::class.java)
+        startActivity(intent)
     }
 
     private fun openPeopleActivity() {

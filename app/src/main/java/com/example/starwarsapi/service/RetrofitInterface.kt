@@ -13,7 +13,7 @@ interface RetrofitInterface {
     suspend fun getpeople(@Query("page") page: Int): Response<PeopleResponse>
 
     @GET("planets/")
-    suspend fun getplanets(@Query("page") page: Int): Response<List<Planets>>
+    suspend fun getplanets(@Query("page") page: Int): Response<PlanetResponse>
 
     @GET("species/")
     suspend fun getspecies(@Query("page") page: Int): Response<List<Species>>

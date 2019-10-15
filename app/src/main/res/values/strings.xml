@@ -11,4 +11,7 @@
     <string name="gender">gender:</string>
     <string name="height">height:</string>
     <string name="mass">mass:</string>
+    <string name="diameter">diameter:</string>
+    <string name="gravity">gravity:</string>
+    <string name="population">population:</string>
 </resources>

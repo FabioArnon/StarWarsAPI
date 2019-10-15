@@ -1,6 +1,5 @@
 package com.example.starwarsapi.repository
 
-import android.util.Range
 import com.example.starwarsapi.models.PeopleResponse
 import com.example.starwarsapi.service.Result
 import com.example.starwarsapi.service.RetrofitInterface
