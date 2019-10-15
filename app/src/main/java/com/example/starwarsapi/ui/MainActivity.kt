@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         btMainActivitySpecies.setOnClickListener {
         }
         btMainActivityStarships.setOnClickListener {
+            openStarshipActivity()
         }
         btMainActivityVehicles.setOnClickListener {
         }
@@ -31,6 +32,11 @@ class MainActivity : AppCompatActivity() {
             openPlanetActivity()
         }
 
+    }
+
+    private fun openStarshipActivity() {
+        val intent = Intent(this, ShowStarshipActivity::class.java)
+        startActivity(intent)
     }
 
     private fun openPlanetActivity() {

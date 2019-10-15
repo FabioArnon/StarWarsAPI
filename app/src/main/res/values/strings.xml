@@ -14,4 +14,5 @@
     <string name="diameter">diameter:</string>
     <string name="gravity">gravity:</string>
     <string name="population">population:</string>
+    <string name="planetsTitle">PLANETS</string>
 </resources>
