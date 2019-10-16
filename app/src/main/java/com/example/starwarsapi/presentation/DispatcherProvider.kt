@@ -1,4 +1,4 @@
-package com.example.starwarsapi
+package com.example.starwarsapi.presentation
 
 import kotlinx.coroutines.Dispatchers
 import kotlin.coroutines.CoroutineContext

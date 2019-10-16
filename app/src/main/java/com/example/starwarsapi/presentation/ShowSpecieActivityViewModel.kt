@@ -2,40 +2,40 @@ package com.example.starwarsapi.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.starwarsapi.models.People
+import com.example.starwarsapi.models.Species
 import com.example.starwarsapi.service.Result
-import com.example.starwarsapi.repository.ShowPeopleActivityRepository
+import com.example.starwarsapi.repository.ShowSpecieActivityRepository
 import com.example.starwarsapi.presentation.ViewModelStatusEnum.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class ShowPeopleActivityViewModel(
-    private val repository: ShowPeopleActivityRepository,
+class ShowSpecieActivityViewModel(
+    private val repository: ShowSpecieActivityRepository,
     private val dispatcherProvider: DispatcherProvider
 ) : BaseViewModel(dispatcherProvider) {
-    private val peopleLiveData = MutableLiveData<ViewState<List<People>, ViewModelStatusEnum>>()
-    fun getList(): LiveData<ViewState<List<People>, ViewModelStatusEnum>> = peopleLiveData
+    private val specieLiveData = MutableLiveData<ViewState<List<Species>, ViewModelStatusEnum>>()
+    fun getList(): LiveData<ViewState<List<Species>, ViewModelStatusEnum>> = specieLiveData
 
-    fun getListPeople() {
-        peopleLiveData.postValue(ViewState(status = LOADING))
+    fun getListSpecies() {
+        specieLiveData.postValue(ViewState(status = LOADING))
         scope.launch(dispatcherProvider.io) {
-            val response = repository.getListPeople(currentPage)
+            val response = repository.getListSpecies(currentPage)
             withContext(dispatcherProvider.ui) {
                 when (response) {
                     is Result.Success -> {
-                        if (!response.data?.peoples.isNullOrEmpty()) {
-                            peopleLiveData.postValue(
+                        if (!response.data?.species.isNullOrEmpty()) {
+                            specieLiveData.postValue(
                                 ViewState(
-                                    response.data?.peoples,
+                                    response.data?.species,
                                     SUCCESS
                                 )
                             )
                         } else {
                             noMoreResults = true
-                            peopleLiveData.postValue(
+                            specieLiveData.postValue(
                                 ViewState(
-                                    response.data?.peoples,
+                                    response.data?.species,
                                     ERROR_LIST_EMPTY
                                 )
                             )
@@ -43,7 +43,7 @@ class ShowPeopleActivityViewModel(
                     }
                     is Result.Failure -> {
                         error = true
-                        peopleLiveData.postValue(
+                        specieLiveData.postValue(
                             ViewState(
                                 null,
                                 ERROR,
@@ -58,6 +58,6 @@ class ShowPeopleActivityViewModel(
 
     override fun nextPage() {
         super.nextPage()
-        getListPeople()
+        getListSpecies()
     }
 }

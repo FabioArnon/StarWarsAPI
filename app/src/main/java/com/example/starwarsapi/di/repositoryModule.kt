@@ -9,4 +9,7 @@ val repositoryModule = module {
     factory<ShowPeopleActivityRepository> { ShowPeopleActivityRepositoryImpl(get()) }
     factory<ShowPlanetActivityRepository> { ShowPlanetActivityRepositoryImpl(get()) }
     factory<ShowStarshipActivityRepository> { ShowStarshipActivityRepositoryImpl(get()) }
+    factory<ShowVehicleActivityRepository> { ShowVehicleActivityRepositoryImpl(get()) }
+    factory<ShowSpecieActivityRepository> { ShowSpecieActivityRepositoryImpl(get()) }
+    factory<ShowFilmActivityRepository> { ShowFilmActivityRepositoryImpl(get()) }
 }

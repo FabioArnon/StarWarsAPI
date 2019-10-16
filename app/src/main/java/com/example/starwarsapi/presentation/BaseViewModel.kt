@@ -1,7 +1,6 @@
 package com.example.starwarsapi.presentation
 
 import androidx.lifecycle.ViewModel
-import com.example.starwarsapi.DispatcherProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import org.koin.core.KoinComponent

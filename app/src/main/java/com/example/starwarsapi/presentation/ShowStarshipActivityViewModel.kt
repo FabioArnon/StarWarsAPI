@@ -2,12 +2,9 @@ package com.example.starwarsapi.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.starwarsapi.DispatcherProvider
-import com.example.starwarsapi.models.Planets
 import com.example.starwarsapi.models.Starships
 import com.example.starwarsapi.presentation.ViewModelStatusEnum.*
 import com.example.starwarsapi.service.Result
-import com.example.starwarsapi.repository.ShowPlanetActivityRepository
 import com.example.starwarsapi.repository.ShowStarshipActivityRepository
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

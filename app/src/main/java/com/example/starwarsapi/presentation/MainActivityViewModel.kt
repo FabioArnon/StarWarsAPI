@@ -1,7 +1,6 @@
 package com.example.starwarsapi.presentation
 
 import androidx.lifecycle.MutableLiveData
-import com.example.starwarsapi.DispatcherProvider
 
 
 class MainActivityViewModel(

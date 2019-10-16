@@ -7,7 +7,7 @@ import retrofit2.http.Query
 
 interface RetrofitInterface {
     @GET("films/")
-    suspend fun getFilms(@Query("page") page: Int): Response<List<Films>>
+    suspend fun getFilms(@Query("page") page: Int): Response<FilmResponse>
 
     @GET("people/")
     suspend fun getpeople(@Query("page") page: Int): Response<PeopleResponse>
@@ -16,11 +16,11 @@ interface RetrofitInterface {
     suspend fun getplanets(@Query("page") page: Int): Response<PlanetResponse>
 
     @GET("species/")
-    suspend fun getspecies(@Query("page") page: Int): Response<List<Species>>
+    suspend fun getspecies(@Query("page") page: Int): Response<SpecieResponse>
 
     @GET("starships/")
     suspend fun getstarships(@Query("page") page: Int): Response<StarshipResponse>
 
     @GET("vehicles/")
-    suspend fun getvehicles(@Query("page") page: Int): Response<List<Vehicles>>
+    suspend fun getvehicles(@Query("page") page: Int): Response<VehicleResponse>
 }

@@ -3,8 +3,9 @@ package com.example.starwarsapi.models
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class PeopleResponse(
+
+data class VehicleResponse(
     @SerializedName("results")
     @Expose
-    val peoples: List<People>
+    val vehicles: List<Vehicles>
 )

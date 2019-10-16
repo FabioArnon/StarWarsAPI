@@ -2,40 +2,40 @@ package com.example.starwarsapi.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.starwarsapi.models.People
+import com.example.starwarsapi.models.Films
 import com.example.starwarsapi.service.Result
-import com.example.starwarsapi.repository.ShowPeopleActivityRepository
+import com.example.starwarsapi.repository.ShowFilmActivityRepository
 import com.example.starwarsapi.presentation.ViewModelStatusEnum.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class ShowPeopleActivityViewModel(
-    private val repository: ShowPeopleActivityRepository,
+class ShowFilmActivityViewModel(
+    private val repository: ShowFilmActivityRepository,
     private val dispatcherProvider: DispatcherProvider
 ) : BaseViewModel(dispatcherProvider) {
-    private val peopleLiveData = MutableLiveData<ViewState<List<People>, ViewModelStatusEnum>>()
-    fun getList(): LiveData<ViewState<List<People>, ViewModelStatusEnum>> = peopleLiveData
+    private val filmLiveData = MutableLiveData<ViewState<List<Films>, ViewModelStatusEnum>>()
+    fun getList(): LiveData<ViewState<List<Films>, ViewModelStatusEnum>> = filmLiveData
 
-    fun getListPeople() {
-        peopleLiveData.postValue(ViewState(status = LOADING))
+    fun getListFilms() {
+        filmLiveData.postValue(ViewState(status = LOADING))
         scope.launch(dispatcherProvider.io) {
-            val response = repository.getListPeople(currentPage)
+            val response = repository.getListFilm(currentPage)
             withContext(dispatcherProvider.ui) {
                 when (response) {
                     is Result.Success -> {
-                        if (!response.data?.peoples.isNullOrEmpty()) {
-                            peopleLiveData.postValue(
+                        if (!response.data?.films.isNullOrEmpty()) {
+                            filmLiveData.postValue(
                                 ViewState(
-                                    response.data?.peoples,
+                                    response.data?.films,
                                     SUCCESS
                                 )
                             )
                         } else {
                             noMoreResults = true
-                            peopleLiveData.postValue(
+                            filmLiveData.postValue(
                                 ViewState(
-                                    response.data?.peoples,
+                                    response.data?.films,
                                     ERROR_LIST_EMPTY
                                 )
                             )
@@ -43,7 +43,7 @@ class ShowPeopleActivityViewModel(
                     }
                     is Result.Failure -> {
                         error = true
-                        peopleLiveData.postValue(
+                        filmLiveData.postValue(
                             ViewState(
                                 null,
                                 ERROR,
@@ -58,6 +58,6 @@ class ShowPeopleActivityViewModel(
 
     override fun nextPage() {
         super.nextPage()
-        getListPeople()
+        getListFilms()
     }
 }

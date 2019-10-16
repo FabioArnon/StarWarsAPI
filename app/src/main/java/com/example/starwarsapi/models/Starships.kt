@@ -2,7 +2,6 @@ package com.example.starwarsapi.models
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import java.io.Serializable
 
 data class Starships(
     @SerializedName("name") @Expose val name: String,
@@ -23,4 +22,4 @@ data class Starships(
     @SerializedName("url") @Expose val url: Any? = null,
     @SerializedName("created") @Expose val created: Any? = null,
     @SerializedName("edited") @Expose val edited: Any? = null
-): Serializable
+)

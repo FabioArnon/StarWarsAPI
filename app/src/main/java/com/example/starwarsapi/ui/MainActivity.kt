@@ -17,13 +17,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         btMainActivityFilm.setOnClickListener {
+            openFilmActivity()
         }
         btMainActivitySpecies.setOnClickListener {
+            openSpecieActivity()
         }
         btMainActivityStarships.setOnClickListener {
             openStarshipActivity()
         }
         btMainActivityVehicles.setOnClickListener {
+            openVehicleActivity()
         }
         btMainActivityPeople.setOnClickListener {
             openPeopleActivity()
@@ -32,6 +35,21 @@ class MainActivity : AppCompatActivity() {
             openPlanetActivity()
         }
 
+    }
+
+    private fun openVehicleActivity() {
+        val intent = Intent(this, ShowVehicleActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun openFilmActivity() {
+        val intent = Intent(this, ShowFilmActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun openSpecieActivity() {
+        val intent = Intent(this, ShowSpecieActivity::class.java)
+        startActivity(intent)
     }
 
     private fun openStarshipActivity() {
