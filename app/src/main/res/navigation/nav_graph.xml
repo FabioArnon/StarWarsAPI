@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/baseFragment">
+
+    <fragment
+        android:id="@+id/baseFragment"
+        android:name="com.example.starwarsapi.ui.BaseFragment"
+        android:label="BaseFragment" >
+        <action
+            android:id="@+id/action_baseFragment_to_showFilmFragment"
+            app:destination="@id/showFilmFragment" />
+        <action
+            android:id="@+id/action_baseFragment_to_showSpecieFragment"
+            app:destination="@id/showSpecieFragment" />
+        <action
+            android:id="@+id/action_baseFragment_to_showPeopleFragment"
+            app:destination="@id/showPeopleFragment" />
+        <action
+            android:id="@+id/action_baseFragment_to_showPlanetFragment"
+            app:destination="@id/showPlanetFragment" />
+        <action
+            android:id="@+id/action_baseFragment_to_showVehicleFragment"
+            app:destination="@id/showVehicleFragment" />
+        <action
+            android:id="@+id/action_baseFragment_to_showStarshipFragment"
+            app:destination="@id/showStarshipFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/showFilmFragment"
+        android:name="com.example.starwarsapi.ui.ShowFilmFragment"
+        android:label="fragment_show_film"
+        tools:layout="@layout/fragment_show_film" />
+    <fragment
+        android:id="@+id/showPlanetFragment"
+        android:name="com.example.starwarsapi.ui.ShowPlanetFragment"
+        android:label="fragment_show_starship"
+        tools:layout="@layout/fragment_show_starship" />
+    <fragment
+        android:id="@+id/showPeopleFragment"
+        android:name="com.example.starwarsapi.ui.ShowPeopleFragment"
+        android:label="fragment_show_people"
+        tools:layout="@layout/fragment_show_people" />
+    <fragment
+        android:id="@+id/showSpecieFragment"
+        android:name="com.example.starwarsapi.ui.ShowSpecieFragment"
+        android:label="fragment_show_specie"
+        tools:layout="@layout/fragment_show_specie" />
+    <fragment
+        android:id="@+id/showVehicleFragment"
+        android:name="com.example.starwarsapi.ui.ShowVehicleFragment"
+        android:label="fragment_show_vehicle"
+        tools:layout="@layout/fragment_show_vehicle" />
+    <fragment
+        android:id="@+id/showStarshipFragment"
+        android:name="com.example.starwarsapi.ui.ShowStarshipFragment"
+        android:label="ShowStarshipFragment" />
+</navigation>

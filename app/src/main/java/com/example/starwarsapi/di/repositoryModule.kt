@@ -6,10 +6,10 @@ import org.koin.dsl.module
 
 val repositoryModule = module {
     factory { Networking.retrofitInterface() }
-    factory<ShowPeopleActivityRepository> { ShowPeopleActivityRepositoryImpl(get()) }
-    factory<ShowPlanetActivityRepository> { ShowPlanetActivityRepositoryImpl(get()) }
-    factory<ShowStarshipActivityRepository> { ShowStarshipActivityRepositoryImpl(get()) }
-    factory<ShowVehicleActivityRepository> { ShowVehicleActivityRepositoryImpl(get()) }
-    factory<ShowSpecieActivityRepository> { ShowSpecieActivityRepositoryImpl(get()) }
-    factory<ShowFilmActivityRepository> { ShowFilmActivityRepositoryImpl(get()) }
+    factory<ShowPeopleRepository> { ShowPeopleRepositoryImpl(get()) }
+    factory<ShowPlanetRepository> { ShowPlanetRepositoryImpl(get()) }
+    factory<ShowStarshipRepository> { ShowStarshipRepositoryImpl(get()) }
+    factory<ShowVehicleRepository> { ShowVehicleRepositoryImpl(get()) }
+    factory<ShowSpecieRepository> { ShowSpecieRepositoryImpl(get()) }
+    factory<ShowFilmRepository> { ShowFilmRepositoryImpl(get()) }
 }

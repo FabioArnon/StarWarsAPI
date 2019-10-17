@@ -12,12 +12,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.ShowFilmActivity"></activity>
-        <activity android:name=".ui.ShowSpecieActivity" />
-        <activity android:name=".ui.ShowVehicleActivity" />
-        <activity android:name=".ui.ShowStarshipActivity" />
-        <activity android:name=".ui.ShowPlanetActivity" />
-        <activity android:name=".ui.ShowPeopleActivity" />
+        <activity android:name=".ui.ShowFilmFragment"></activity>
+        <activity android:name=".ui.ShowSpecieFragment" />
+        <activity android:name=".ui.ShowVehicleFragment" />
+        <activity android:name=".ui.ShowStarshipFragment" />
+        <activity android:name=".ui.ShowPlanetFragment" />
+        <activity android:name=".ui.ShowPeopleFragment" />
         <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

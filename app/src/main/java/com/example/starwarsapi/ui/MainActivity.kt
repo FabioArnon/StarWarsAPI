@@ -1,70 +1,80 @@
 package com.example.starwarsapi.ui
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
+import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.ui.NavigationUI
 import com.example.starwarsapi.R
-import com.example.starwarsapi.presentation.MainActivityViewModel
+import com.example.starwarsapi.presentation.MainViewModel
+import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.toolbar.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    private val viewModel: MainActivityViewModel by viewModel()
+
+    lateinit var navController: NavController
+    private val viewModel: MainViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        btMainActivityFilm.setOnClickListener {
-            openFilmActivity()
-        }
-        btMainActivitySpecies.setOnClickListener {
-            openSpecieActivity()
-        }
-        btMainActivityStarships.setOnClickListener {
-            openStarshipActivity()
-        }
-        btMainActivityVehicles.setOnClickListener {
-            openVehicleActivity()
-        }
-        btMainActivityPeople.setOnClickListener {
-            openPeopleActivity()
-        }
-        btMainActivityPlanet.setOnClickListener {
-            openPlanetActivity()
-        }
-
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+        setupNavigation()
     }
 
-    private fun openVehicleActivity() {
-        val intent = Intent(this, ShowVehicleActivity::class.java)
-        startActivity(intent)
+    private fun setupNavigation() {
+        navView.setNavigationItemSelectedListener(this)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        val toggle = ActionBarDrawerToggle(
+            this,
+            drawerLayout,
+            toolbar,
+            R.string.open_drawer,
+            R.string.close_drawer
+        )
+        drawerLayout.addDrawerListener(toggle)
+
+        NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
+        NavigationUI.setupWithNavController(navView, navController)
+        navView.setNavigationItemSelectedListener(this)
     }
 
-    private fun openFilmActivity() {
-        val intent = Intent(this, ShowFilmActivity::class.java)
-        startActivity(intent)
+    override fun onSupportNavigateUp(): Boolean {
+        return NavigationUI.navigateUp(Navigation.findNavController(this, R.id.nav_host_fragment),drawerLayout)
     }
 
-    private fun openSpecieActivity() {
-        val intent = Intent(this, ShowSpecieActivity::class.java)
-        startActivity(intent)
+    override fun onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed()
+        }
     }
 
-    private fun openStarshipActivity() {
-        val intent = Intent(this, ShowStarshipActivity::class.java)
-        startActivity(intent)
-    }
 
-    private fun openPlanetActivity() {
-        val intent = Intent(this, ShowPlanetActivity::class.java)
-        startActivity(intent)
-    }
-
-    private fun openPeopleActivity() {
-        val intent = Intent(this, ShowPeopleActivity::class.java)
-        startActivity(intent)
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        item.isChecked = true
+        drawerLayout.closeDrawers()
+        when (item.itemId) {
+            R.id.people_item -> navController.navigate(R.id.action_baseFragment_to_showPeopleFragment)
+            R.id.specie_item -> navController.navigate(R.id.action_baseFragment_to_showSpecieFragment)
+            R.id.planet_item -> navController.navigate(R.id.action_baseFragment_to_showPlanetFragment)
+            R.id.vehicle_item -> navController.navigate(R.id.action_baseFragment_to_showVehicleFragment)
+            R.id.starship_item -> navController.navigate(R.id.action_baseFragment_to_showStarshipFragment)
+            R.id.film_item -> navController.navigate(R.id.action_baseFragment_to_showFilmFragment)
+            else -> Toast.makeText(this, "Menu default", Toast.LENGTH_SHORT).show()
+        }
+        return true
     }
 
 }

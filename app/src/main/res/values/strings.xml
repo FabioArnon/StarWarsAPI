@@ -15,4 +15,7 @@
     <string name="gravity">gravity:</string>
     <string name="population">population:</string>
     <string name="planetsTitle">PLANETS</string>
+    <string name="open_drawer">Abrir</string>
+    <string name="close_drawer">Fechar</string>
+
 </resources>

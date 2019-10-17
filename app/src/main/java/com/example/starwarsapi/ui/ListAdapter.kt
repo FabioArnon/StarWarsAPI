@@ -9,14 +9,13 @@ import com.example.starwarsapi.models.People
 import kotlinx.android.synthetic.main.item_adapter_list.view.*
 
  class ListAdapter<T> (
-    private val context: Context,
     val list: MutableList<T>,
     private val configureView: (T, view: View)-> Unit
 ) :
     RecyclerView.Adapter<ListAdapter.ViewHolder<T>>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder<T> {
-        val view = LayoutInflater.from(context).inflate(R.layout.item_adapter_list, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_adapter_list, parent, false)
         return ViewHolder(configureView,view)
     }
 

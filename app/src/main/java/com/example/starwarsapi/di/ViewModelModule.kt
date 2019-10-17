@@ -1,17 +1,19 @@
 package com.example.starwarsapi.di
 
 import com.example.starwarsapi.presentation.DispatcherProvider
-import com.example.starwarsapi.presentation.ShowVehicleActivityViewModel
+import com.example.starwarsapi.presentation.ShowVehicleViewModel
 import com.example.starwarsapi.presentation.*
+import com.example.starwarsapi.ui.BaseFragment
 import org.koin.dsl.module
 
 val viewModelModule = module{
     factory { DispatcherProvider() }
-    factory { MainActivityViewModel(get()) }
-    factory { ShowPeopleActivityViewModel(get(),get()) }
-    factory { ShowPlanetActivityViewModel(get(), get()) }
-    factory { ShowStarshipActivityViewModel(get(), get()) }
-    factory { ShowVehicleActivityViewModel(get(), get()) }
-    factory { ShowSpecieActivityViewModel(get(), get()) }
-    factory { ShowFilmActivityViewModel(get(), get()) }
+    factory { MainViewModel(get()) }
+    factory { BaseFragment()}
+    factory { ShowPeopleViewModel(get(),get()) }
+    factory { ShowPlanetViewModel(get(), get()) }
+    factory { ShowStarshipViewModel(get(), get()) }
+    factory { ShowVehicleViewModel(get(), get()) }
+    factory { ShowSpecieViewModel(get(), get()) }
+    factory { ShowFilmViewModel(get(), get()) }
 }
