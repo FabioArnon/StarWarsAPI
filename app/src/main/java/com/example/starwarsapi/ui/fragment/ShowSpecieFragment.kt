@@ -1,4 +1,4 @@
-package com.example.starwarsapi.ui
+package com.example.starwarsapi.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,42 +7,40 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.example.starwarsapi.R
 import com.example.starwarsapi.application.onScrollListener
-import com.example.starwarsapi.models.Films
-import com.example.starwarsapi.presentation.ShowFilmViewModel
+import com.example.starwarsapi.models.Species
+import com.example.starwarsapi.presentation.ShowSpecieViewModel
 import com.example.starwarsapi.presentation.ViewModelStatusEnum
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.example.starwarsapi.presentation.ViewModelStatusEnum.*
 import com.example.starwarsapi.presentation.ViewState
+import com.example.starwarsapi.ui.adapter.ListPeopleAdapter
+import com.example.starwarsapi.ui.adapter.ListSpecieAdapter
 import kotlinx.android.synthetic.main.fragment_show_people.*
-import kotlinx.android.synthetic.main.item_adapter_list.view.*
 
 
-class ShowFilmFragment: BaseFragment() {
-    private val viewModel: ShowFilmViewModel by viewModel()
-    private val adapter =  ListAdapter(mutableListOf<Films>()) { film, view ->
-        view.setOnClickListener {}
-        view.name.text = "title:"
-        view.nameInsert.text = film.title
-        view.segundoText.text = "episode_id:"
-        view.segundoInsert.text = film.episodeId.toString()
-        view.terceiroText.text = "release date:"
-        view.terceiroInsert.text = film.releaseDate.toString()
-        view.quartoText.text = "director:"
-        view.quartoInsert.text = film.director
-    }
+class ShowSpecieFragment : BaseFragment() {
+
+
+    private val viewModel: ShowSpecieViewModel by viewModel()
+
+    private val adapter =
+        ListSpecieAdapter(mutableListOf<Species>()) {
+
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecycleView()
-        viewModel.getListFilms()
+        viewModel.getListSpecies()
         setObserves()
+
     }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_show_film, container, false)
+        return inflater.inflate(R.layout.fragment_show_specie, container, false)
     }
 
 
@@ -64,7 +62,7 @@ class ShowFilmFragment: BaseFragment() {
         })
     }
 
-    private fun openNextActivity(viewState: ViewState<List<Films>, ViewModelStatusEnum>?) {
+    private fun openNextActivity(viewState: ViewState<List<Species>, ViewModelStatusEnum>?) {
         viewState?.data?.let { list -> adapter.list.addAll(list) }
         adapter.notifyDataSetChanged()
     }

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:backgroundTint="@color/colorPrimary">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:paddingTop="40dp"
+        android:clipToPadding="false">
+
+        <TextView
+            android:id="@+id/tvNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="5dp"
+            android:text="Name: "
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvNameInsert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/tvNameText"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@id/tvNameText"
+            android:text="Luke SkyWalker" />
+
+        <TextView
+            android:id="@+id/tvBirthText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvNameText"
+            android:layout_alignParentStart="true"
+            android:text="Birth: "
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvBirthInsert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvNameInsert"
+            android:layout_alignBaseline="@id/tvBirthText"
+            android:layout_toEndOf="@id/tvBirthText"
+            android:text="19 BBY" />
+
+        <TextView
+            android:id="@+id/tvGenderText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/tvNameInsert"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="150dp"
+            android:layout_toEndOf="@id/tvNameText"
+            android:text="Gender: " />
+
+        <TextView
+            android:id="@+id/tvGenderInsert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/tvGenderText"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@id/tvGenderText"
+            android:text="Male" />
+
+        <TextView
+            android:id="@+id/tvSkinText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvGenderText"
+            android:layout_alignBaseline="@id/tvBirthText"
+            android:layout_marginStart="160dp"
+            android:layout_toEndOf="@id/tvBirthText"
+            android:text="Skin: " />
+
+        <TextView
+            android:id="@+id/tvSkinInsert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvGenderInsert"
+            android:layout_alignBaseline="@id/tvSkinText"
+            android:layout_toEndOf="@id/tvSkinText"
+            android:text="Fair" />
+
+        <TextView
+            android:id="@+id/tvFilmText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvBirthText"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="22dp"
+            android:text="Films"
+            android:textSize="22sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/filmRv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/tvFilmText"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_adapter_list"></androidx.recyclerview.widget.RecyclerView>
+
+        <TextView
+            android:id="@+id/tvStarshipText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/filmRv"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="22dp"
+            android:text="Starships"
+            android:textSize="22sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/starshipRv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/tvStarshipText"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_adapter_list"></androidx.recyclerview.widget.RecyclerView>
+
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:foregroundGravity="center"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+
+</ScrollView>

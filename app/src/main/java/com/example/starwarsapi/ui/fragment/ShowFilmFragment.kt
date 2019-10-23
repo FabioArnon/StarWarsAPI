@@ -1,4 +1,4 @@
-package com.example.starwarsapi.ui
+package com.example.starwarsapi.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,32 +7,27 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.example.starwarsapi.R
 import com.example.starwarsapi.application.onScrollListener
-import com.example.starwarsapi.models.Starships
-import com.example.starwarsapi.presentation.ShowStarshipViewModel
+import com.example.starwarsapi.models.Films
+import com.example.starwarsapi.presentation.ShowFilmViewModel
 import com.example.starwarsapi.presentation.ViewModelStatusEnum
 import com.example.starwarsapi.presentation.ViewModelStatusEnum.*
 import com.example.starwarsapi.presentation.ViewState
+import com.example.starwarsapi.ui.adapter.ListFilmAdapter
 import kotlinx.android.synthetic.main.fragment_show_people.*
-import kotlinx.android.synthetic.main.item_adapter_list.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ShowStarshipFragment : BaseFragment() {
-    private val viewModel: ShowStarshipViewModel by viewModel()
-    private val adapter = ListAdapter(mutableListOf<Starships>()) { starships, view ->
-        view.setOnClickListener {}
-        view.nameInsert.text = starships.name
-        view.segundoText.text = "model:"
-        view.segundoInsert.text = starships.model
-        view.terceiroText.text = "Cost in Credits:"
-        view.terceiroInsert.text = starships.cost
-        view.quartoText.text = "passengers:"
-        view.quartoInsert.text = starships.passengers
-    }
+
+class ShowFilmFragment : BaseFragment() {
+    private val viewModel: ShowFilmViewModel by viewModel()
+    private val adapter =
+        ListFilmAdapter(mutableListOf()) {
+
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecycleView()
-        viewModel.getListStarship()
+        viewModel.getListFilms()
         setObserves()
 
     }
@@ -42,8 +37,9 @@ class ShowStarshipFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_show_starship, container, false)
+        return inflater.inflate(R.layout.fragment_show_film, container, false)
     }
+
 
     private fun setupRecycleView() {
         rvSearchActivityList.onScrollListener {
@@ -66,8 +62,10 @@ class ShowStarshipFragment : BaseFragment() {
         })
     }
 
-    private fun openNextActivity(viewState: ViewState<List<Starships>, ViewModelStatusEnum>?) {
+    private fun openNextActivity(viewState: ViewState<List<Films>, ViewModelStatusEnum>?) {
         viewState?.data?.let { list -> adapter.list.addAll(list) }
         adapter.notifyDataSetChanged()
     }
+
+
 }

@@ -1,38 +1,35 @@
-package com.example.starwarsapi.ui
+package com.example.starwarsapi.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import com.example.starwarsapi.R
 import com.example.starwarsapi.application.onScrollListener
-import com.example.starwarsapi.models.Vehicles
-import com.example.starwarsapi.presentation.ShowVehicleViewModel
+import com.example.starwarsapi.models.Starships
+import com.example.starwarsapi.presentation.ShowStarshipViewModel
 import com.example.starwarsapi.presentation.ViewModelStatusEnum
 import com.example.starwarsapi.presentation.ViewModelStatusEnum.*
 import com.example.starwarsapi.presentation.ViewState
+import com.example.starwarsapi.ui.adapter.ListStarshipAdapter
 import kotlinx.android.synthetic.main.fragment_show_people.*
-import kotlinx.android.synthetic.main.item_adapter_list.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ShowVehicleFragment : BaseFragment() {
-    private val viewModel: ShowVehicleViewModel by viewModel()
-    private val adapter = ListAdapter(mutableListOf<Vehicles>()) { Vehicles, view ->
-        view.setOnClickListener {}
-        view.nameInsert.text = Vehicles.name
-        view.segundoText.text = "model:"
-        view.segundoInsert.text = Vehicles.model
-        view.terceiroText.text = "Cost in Credits:"
-        view.terceiroInsert.text = Vehicles.cost
-        view.quartoText.text = "passengers:"
-        view.quartoInsert.text = Vehicles.passengers
-    }
+class ShowStarshipFragment : BaseFragment() {
+    private val viewModel: ShowStarshipViewModel by viewModel()
+    private val adapter =
+        ListStarshipAdapter(mutableListOf()) {
+            val starships = it
+            val action = ShowStarshipFragmentDirections.actionShowStarshipFragmentToDetailStarshipFragment(starships)
+            view?.findNavController()?.navigate(action)
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecycleView()
-        viewModel.getListVehicle()
+        viewModel.getListStarship()
         setObserves()
 
     }
@@ -42,7 +39,7 @@ class ShowVehicleFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_show_vehicle, container, false)
+        return inflater.inflate(R.layout.fragment_show_starship, container, false)
     }
 
     private fun setupRecycleView() {
@@ -66,7 +63,7 @@ class ShowVehicleFragment : BaseFragment() {
         })
     }
 
-    private fun openNextActivity(viewState: ViewState<List<Vehicles>, ViewModelStatusEnum>?) {
+    private fun openNextActivity(viewState: ViewState<List<Starships>, ViewModelStatusEnum>?) {
         viewState?.data?.let { list -> adapter.list.addAll(list) }
         adapter.notifyDataSetChanged()
     }

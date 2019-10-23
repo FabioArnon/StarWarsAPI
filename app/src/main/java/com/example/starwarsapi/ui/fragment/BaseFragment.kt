@@ -1,4 +1,4 @@
-package com.example.starwarsapi.ui
+package com.example.starwarsapi.ui.fragment
 
 import androidx.fragment.app.Fragment
 

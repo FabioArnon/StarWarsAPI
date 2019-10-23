@@ -1,8 +1,11 @@
 package com.example.starwarsapi.models
 
+import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class People(
     @SerializedName("name") @Expose val name: String,
     @SerializedName("birth_year") @Expose val birthYear: String,
@@ -13,11 +16,11 @@ data class People(
     @SerializedName("mass") @Expose val mass: String,
     @SerializedName("skin_color") @Expose val skinColor: String,
     @SerializedName("homeworld") @Expose val homeworld: String,
-    @SerializedName("films") @Expose val films: Any? = null,
-    @SerializedName("species") @Expose val species: Any? = null,
-    @SerializedName("starships") @Expose val starships: Any? = null,
-    @SerializedName("vehicles") @Expose val vehicles: Any? = null,
-    @SerializedName("url") @Expose val url: Any? = null,
-    @SerializedName("created") @Expose val created: Any? = null,
-    @SerializedName("edited") @Expose val edited: Any? = null
-)
+    @SerializedName("films") @Expose val films: List<String>,
+    @SerializedName("species") @Expose val species: List<String>,
+    @SerializedName("starships") @Expose val starships: List<String>,
+    @SerializedName("vehicles") @Expose val vehicles: List<String>,
+    @SerializedName("url") @Expose val url: String,
+    @SerializedName("created") @Expose val created: String,
+    @SerializedName("edited") @Expose val edited: String
+): Parcelable

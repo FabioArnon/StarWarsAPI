@@ -1,49 +1,46 @@
-package com.example.starwarsapi.ui
+package com.example.starwarsapi.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import com.example.starwarsapi.R
 import com.example.starwarsapi.application.onScrollListener
-import com.example.starwarsapi.presentation.ShowPlanetViewModel
-import com.example.starwarsapi.models.Planets
+import com.example.starwarsapi.models.Vehicles
+import com.example.starwarsapi.presentation.ShowVehicleViewModel
 import com.example.starwarsapi.presentation.ViewModelStatusEnum
 import com.example.starwarsapi.presentation.ViewModelStatusEnum.*
 import com.example.starwarsapi.presentation.ViewState
+import com.example.starwarsapi.ui.adapter.ListVehicleAdapter
 import kotlinx.android.synthetic.main.fragment_show_people.*
-import androidx.lifecycle.Observer
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import kotlinx.android.synthetic.main.item_adapter_list.view.*
 
-class ShowPlanetFragment : BaseFragment() {
-    private val viewModel: ShowPlanetViewModel by viewModel()
-    private val adapter = ListAdapter( mutableListOf<Planets>()) { planets, view ->
-        view.setOnClickListener {}
-        view.nameInsert.text = planets.name
-        view.segundoText.text = getString(R.string.diameter)
-        view.segundoInsert.text = planets.diameter
-        view.terceiroText.text = "orbitalPeriod:"
-        view.terceiroInsert.text = planets.orbitalPeriod
-        view.quartoText.text = getString(R.string.population)
-        view.quartoInsert.text = planets.population
-    }
+class ShowVehicleFragment : BaseFragment() {
+    private val viewModel: ShowVehicleViewModel by viewModel()
+    private val adapter =
+        ListVehicleAdapter(mutableListOf()) {
+            val vehicles = it
+            val action = ShowVehicleFragmentDirections.actionShowVehicleFragmentToDetailVehicleFragment(vehicles)
+            view?.findNavController()?.navigate(action)
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecycleView()
-        viewModel.getListPlanet()
+        viewModel.getListVehicle()
         setObserves()
 
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_show_planet, container, false)
+        return inflater.inflate(R.layout.fragment_show_vehicle, container, false)
     }
-
 
     private fun setupRecycleView() {
         rvSearchActivityList.onScrollListener {
@@ -66,7 +63,7 @@ class ShowPlanetFragment : BaseFragment() {
         })
     }
 
-    private fun openNextActivity(viewState: ViewState<List<Planets>, ViewModelStatusEnum>?) {
+    private fun openNextActivity(viewState: ViewState<List<Vehicles>, ViewModelStatusEnum>?) {
         viewState?.data?.let { list -> adapter.list.addAll(list) }
         adapter.notifyDataSetChanged()
     }

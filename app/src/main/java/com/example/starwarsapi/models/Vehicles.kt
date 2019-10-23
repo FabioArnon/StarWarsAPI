@@ -1,8 +1,11 @@
 package com.example.starwarsapi.models
 
+import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Vehicles(
     @SerializedName("name") @Expose val name: String,
     @SerializedName("model") @Expose val model: String,
@@ -15,9 +18,9 @@ data class Vehicles(
     @SerializedName("max_atmosphering_speed") @Expose val maxSpeed: String,
     @SerializedName("cargo_capacity") @Expose val cargoCapacity: String,
     @SerializedName("consumables") @Expose val consumables: String,
-    @SerializedName("films") @Expose val films: Any? = null,
-    @SerializedName("pilots") @Expose val pilots: Any? = null,
-    @SerializedName("url") @Expose val url: Any? = null,
-    @SerializedName("created") @Expose val created: Any? = null,
-    @SerializedName("edited") @Expose val edited: Any? = null
-)
+    @SerializedName("films") @Expose val films: List<String>,
+    @SerializedName("pilots") @Expose val pilots: List<String>,
+    @SerializedName("url") @Expose val url: String,
+    @SerializedName("created") @Expose val created: String,
+    @SerializedName("edited") @Expose val edited: String
+): Parcelable

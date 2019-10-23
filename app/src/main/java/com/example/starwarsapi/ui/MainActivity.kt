@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
+
         val toggle = ActionBarDrawerToggle(
             this,
             drawerLayout,
@@ -42,15 +43,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.string.open_drawer,
             R.string.close_drawer
         )
+        toggle.isDrawerIndicatorEnabled = true
         drawerLayout.addDrawerListener(toggle)
 
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
-        NavigationUI.setupWithNavController(navView, navController)
+        NavigationUI.setupWithNavController(toolbar, navController, drawerLayout)
         navView.setNavigationItemSelectedListener(this)
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return NavigationUI.navigateUp(Navigation.findNavController(this, R.id.nav_host_fragment),drawerLayout)
+        return NavigationUI.navigateUp(
+            Navigation.findNavController(this, R.id.nav_host_fragment),
+            drawerLayout
+        )
     }
 
     override fun onBackPressed() {
@@ -63,15 +68,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        item.isChecked = true
         drawerLayout.closeDrawers()
         when (item.itemId) {
-            R.id.people_item -> navController.navigate(R.id.action_baseFragment_to_showPeopleFragment)
-            R.id.specie_item -> navController.navigate(R.id.action_baseFragment_to_showSpecieFragment)
-            R.id.planet_item -> navController.navigate(R.id.action_baseFragment_to_showPlanetFragment)
-            R.id.vehicle_item -> navController.navigate(R.id.action_baseFragment_to_showVehicleFragment)
-            R.id.starship_item -> navController.navigate(R.id.action_baseFragment_to_showStarshipFragment)
-            R.id.film_item -> navController.navigate(R.id.action_baseFragment_to_showFilmFragment)
+            R.id.people_item -> navController.navigate(R.id.showPeopleFragment)
+            R.id.specie_item -> navController.navigate(R.id.showSpecieFragment)
+            R.id.planet_item -> navController.navigate(R.id.showPlanetFragment)
+            R.id.vehicle_item -> navController.navigate(R.id.showVehicleFragment)
+            R.id.starship_item -> navController.navigate(R.id.showStarshipFragment)
+            R.id.film_item -> navController.navigate(R.id.showFilmFragment)
             else -> Toast.makeText(this, "Menu default", Toast.LENGTH_SHORT).show()
         }
         return true
