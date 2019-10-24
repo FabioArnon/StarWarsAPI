@@ -44,12 +44,20 @@
         android:id="@+id/showFilmFragment"
         android:name="com.example.starwarsapi.ui.fragment.ShowFilmFragment"
         android:label="Films"
-        tools:layout="@layout/fragment_show_film" />
+        tools:layout="@layout/fragment_show_film" >
+        <action
+            android:id="@+id/action_showFilmFragment_to_detailFilmFragment"
+            app:destination="@id/detailFilmFragment" />
+    </fragment>
     <fragment
         android:id="@+id/showPlanetFragment"
         android:name="com.example.starwarsapi.ui.fragment.ShowPlanetFragment"
         android:label="Planets"
-        tools:layout="@layout/fragment_show_starship" />
+        tools:layout="@layout/fragment_show_starship" >
+        <action
+            android:id="@+id/action_showPlanetFragment_to_detailPlanetFragment"
+            app:destination="@id/detailPlanetFragment" />
+    </fragment>
     <fragment
         android:id="@+id/showPeopleFragment"
         android:name="com.example.starwarsapi.ui.fragment.ShowPeopleFragment"
@@ -63,7 +71,11 @@
         android:id="@+id/showSpecieFragment"
         android:name="com.example.starwarsapi.ui.fragment.ShowSpecieFragment"
         android:label="Species"
-        tools:layout="@layout/fragment_show_specie" />
+        tools:layout="@layout/fragment_show_specie" >
+        <action
+            android:id="@+id/action_showSpecieFragment_to_detailSpecieFragment"
+            app:destination="@id/detailSpecieFragment" />
+    </fragment>
     <fragment
         android:id="@+id/showVehicleFragment"
         android:name="com.example.starwarsapi.ui.fragment.ShowVehicleFragment"
@@ -76,6 +88,7 @@
     <fragment
         android:id="@+id/showStarshipFragment"
         android:name="com.example.starwarsapi.ui.fragment.ShowStarshipFragment"
+        tools:layout="@layout/fragment_show_starship"
         android:label="Starships" >
         <action
             android:id="@+id/action_showStarshipFragment_to_detailStarshipFragment"
@@ -89,6 +102,12 @@
         <argument
             android:name="People"
             app:argType="com.example.starwarsapi.models.People" />
+        <action
+            android:id="@+id/action_detailPeopleFragment_to_detailFilmFragment"
+            app:destination="@id/detailFilmFragment" />
+        <action
+            android:id="@+id/action_detailPeopleFragment_to_detailStarshipFragment"
+            app:destination="@id/detailStarshipFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailStarshipFragment"
@@ -98,6 +117,12 @@
         <argument
             android:name="Starship"
             app:argType="com.example.starwarsapi.models.Starships" />
+        <action
+            android:id="@+id/action_detailStarshipFragment_to_detailPeopleFragment"
+            app:destination="@id/detailPeopleFragment" />
+        <action
+            android:id="@+id/action_detailStarshipFragment_to_detailFilmFragment"
+            app:destination="@id/detailFilmFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailVehicleFragment"
@@ -107,5 +132,56 @@
         <argument
             android:name="Vehicle"
             app:argType="com.example.starwarsapi.models.Vehicles" />
+        <action
+            android:id="@+id/action_detailVehicleFragment_to_detailFilmFragment"
+            app:destination="@id/detailFilmFragment" />
+        <action
+            android:id="@+id/action_detailVehicleFragment_to_detailPeopleFragment"
+            app:destination="@id/detailPeopleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailPlanetFragment"
+        android:name="com.example.starwarsapi.ui.fragment.DetailPlanetFragment"
+        android:label="detail_planet_fragment"
+        tools:layout="@layout/detail_planet_fragment" >
+        <argument
+            android:name="Planet"
+            app:argType="com.example.starwarsapi.models.Planets" />
+        <action
+            android:id="@+id/action_detailPlanetFragment_to_detailFilmFragment"
+            app:destination="@id/detailFilmFragment" />
+        <action
+            android:id="@+id/action_detailPlanetFragment_to_detailPeopleFragment"
+            app:destination="@id/detailPeopleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailSpecieFragment"
+        android:name="com.example.starwarsapi.ui.fragment.DetailSpecieFragment"
+        android:label="detail_specie_fragment"
+        tools:layout="@layout/detail_specie_fragment" >
+        <argument
+            android:name="Specie"
+            app:argType="com.example.starwarsapi.models.Species" />
+        <action
+            android:id="@+id/action_detailSpecieFragment_to_detailFilmFragment"
+            app:destination="@id/detailFilmFragment" />
+        <action
+            android:id="@+id/action_detailSpecieFragment_to_detailPeopleFragment"
+            app:destination="@id/detailPeopleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFilmFragment"
+        android:name="com.example.starwarsapi.ui.fragment.DetailFilmFragment"
+        android:label="detail_film_fragment"
+        tools:layout="@layout/detail_film_fragment" >
+        <argument
+            android:name="Film"
+            app:argType="com.example.starwarsapi.models.Films" />
+        <action
+            android:id="@+id/action_detailFilmFragment_to_detailPeopleFragment"
+            app:destination="@id/detailPeopleFragment" />
+        <action
+            android:id="@+id/action_detailFilmFragment_to_detailStarshipFragment"
+            app:destination="@id/detailStarshipFragment" />
     </fragment>
 </navigation>

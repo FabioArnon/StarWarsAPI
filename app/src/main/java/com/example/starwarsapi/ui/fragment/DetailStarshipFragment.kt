@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.starwarsapi.R
 import com.example.starwarsapi.models.Films
@@ -20,19 +21,23 @@ import kotlinx.android.synthetic.main.detail_starship_fragment.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class DetailStarshipFragment : Fragment() {
+class DetailStarshipFragment : BaseFragment() {
 
     private val viewModel: DetailStarshipViewModel by viewModel()
     val args: DetailStarshipFragmentArgs by navArgs()
 
     private val adapter =
         ListFilmAdapter(mutableListOf()) {
-
+            val film = it
+            val action = DetailStarshipFragmentDirections.actionDetailStarshipFragmentToDetailFilmFragment(film)
+            view?.findNavController()?.navigate(action)
         }
 
     private val adapter2 =
         ListPeopleAdapter(mutableListOf()) {
-
+            val people = it
+            val action = DetailStarshipFragmentDirections.actionDetailStarshipFragmentToDetailPeopleFragment(people)
+            view?.findNavController()?.navigate(action)
         }
 
     override fun onCreateView(

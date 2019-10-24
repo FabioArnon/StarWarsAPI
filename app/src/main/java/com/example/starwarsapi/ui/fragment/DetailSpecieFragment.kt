@@ -1,7 +1,6 @@
 package com.example.starwarsapi.ui.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,35 +8,34 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
-
 import com.example.starwarsapi.R
 import com.example.starwarsapi.models.Films
 import com.example.starwarsapi.models.People
-import com.example.starwarsapi.presentation.DetailVehicleViewModel
+import com.example.starwarsapi.presentation.DetailSpecieViewModel
 import com.example.starwarsapi.presentation.ViewModelStatusEnum
 import com.example.starwarsapi.presentation.ViewState
 import com.example.starwarsapi.ui.adapter.ListFilmAdapter
 import com.example.starwarsapi.ui.adapter.ListPeopleAdapter
-import kotlinx.android.synthetic.main.detail_vehicle_fragment.*
+import kotlinx.android.synthetic.main.detail_specie_fragment.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class DetailVehicleFragment : BaseFragment() {
+class DetailSpecieFragment : BaseFragment() {
 
-    private val viewModel: DetailVehicleViewModel by viewModel()
-    val args: DetailVehicleFragmentArgs by navArgs()
+    private val viewModel: DetailSpecieViewModel by viewModel()
+    val args: DetailSpecieFragmentArgs by navArgs()
 
     private val adapter =
         ListFilmAdapter(mutableListOf()) {
             val film = it
-            val action = DetailVehicleFragmentDirections.actionDetailVehicleFragmentToDetailFilmFragment(film)
+            val action = DetailSpecieFragmentDirections.actionDetailSpecieFragmentToDetailFilmFragment(film)
             view?.findNavController()?.navigate(action)
         }
 
     private val adapter2 =
         ListPeopleAdapter(mutableListOf()) {
             val people = it
-            val action = DetailVehicleFragmentDirections.actionDetailVehicleFragmentToDetailPeopleFragment(people)
+            val action = DetailSpecieFragmentDirections.actionDetailSpecieFragmentToDetailPeopleFragment(people)
             view?.findNavController()?.navigate(action)
         }
 
@@ -45,7 +43,7 @@ class DetailVehicleFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.detail_vehicle_fragment, container, false)
+        return inflater.inflate(R.layout.detail_specie_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -54,15 +52,15 @@ class DetailVehicleFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val vehicle = args.Vehicle
-        tvNameInsert.text = vehicle.name
-        tvModelInsert.text = vehicle.model
-        tvManufacturerInsert.text = vehicle.manufacturer
-        tvClassInsert.text = vehicle.vehicleClass
+        val specie = args.Specie
+        tvNameInsert.text = specie.name
+        tvClassificationInsert.text = specie.classification
+        tvDesignationInsert.text = specie.designation
+        tvLifespanInsert.text = specie.averageLifespan
         filmRv.adapter = adapter
-        pilotRv.adapter = adapter2
-        viewModel.nextFilm(vehicle)
-        viewModel.nextPilot(vehicle)
+        peopleRv.adapter = adapter2
+        viewModel.nextFilm(specie)
+        viewModel.nextResident(specie)
     }
     private fun setObserves() {
         viewModel.getList().observe(this, Observer { viewState ->
@@ -76,7 +74,7 @@ class DetailVehicleFragment : BaseFragment() {
         })
         viewModel.getListPeople().observe(this, Observer { viewState ->
             when (viewState.status) {
-                ViewModelStatusEnum.SUCCESS -> setNewItemPilot(viewState)
+                ViewModelStatusEnum.SUCCESS -> setNewItemResident(viewState)
                 ViewModelStatusEnum.ERROR -> onError(viewState.error)
                 ViewModelStatusEnum.ERROR_LIST_EMPTY ->
                     Toast.makeText(context, "Erro desconhecido", Toast.LENGTH_SHORT).show()
@@ -84,7 +82,7 @@ class DetailVehicleFragment : BaseFragment() {
         })
     }
 
-    private fun setNewItemPilot(viewState: ViewState<List<People>, ViewModelStatusEnum>?) {
+    private fun setNewItemResident(viewState: ViewState<List<People>, ViewModelStatusEnum>?) {
         viewState?.data?.let { list -> adapter2.list.addAll(list)}
         adapter2.notifyDataSetChanged()
     }

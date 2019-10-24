@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:backgroundTint="@color/colorPrimary"
+    tools:context=".ui.fragment.DetailPlanetFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:clipToPadding="false"
+        android:paddingTop="40dp">
+
+        <TextView
+            android:id="@+id/tvNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="5dp"
+            android:text="Name: "
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvNameInsert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/tvNameText"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@id/tvNameText"
+            tools:text="Tatooine" />
+
+        <TextView
+            android:id="@+id/tvPopulationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvNameText"
+            android:layout_marginTop="12dp"
+            android:layout_alignParentStart="true"
+            android:text="Population: "
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvPopulationInsert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvNameInsert"
+            android:layout_alignBaseline="@id/tvPopulationText"
+            android:layout_toEndOf="@id/tvPopulationText"
+            tools:text="200000" />
+
+        <TextView
+            android:id="@+id/tvTerrainText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvPopulationText"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="12dp"
+            android:text="Terrain: "
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/tvTerrainInsert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/tvTerrainText"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@id/tvTerrainText"
+            tools:text="desert"
+            />
+
+        <TextView
+            android:id="@+id/tvOrbitalText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvTerrainText"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="12dp"
+            android:text="Orbital period: "
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/tvOrbitalInsert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/tvOrbitalText"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@id/tvOrbitalText"
+            tools:text="304" />
+
+        <TextView
+            android:id="@+id/tvFilmText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvOrbitalText"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="22dp"
+            android:text="Films"
+            android:textSize="22sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/filmRv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/tvFilmText"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_adapter_list"></androidx.recyclerview.widget.RecyclerView>
+
+        <TextView
+            android:id="@+id/tvResidentsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/filmRv"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="22dp"
+            android:text="residents"
+            android:textSize="22sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/residentsRv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/tvResidentsText"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_adapter_list"></androidx.recyclerview.widget.RecyclerView>
+
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:foregroundGravity="center"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+
+</ScrollView>

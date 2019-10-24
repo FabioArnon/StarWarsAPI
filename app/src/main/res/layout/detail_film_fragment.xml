@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:backgroundTint="@color/colorPrimary"
+    tools:context=".ui.fragment.DetailFilmFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:clipToPadding="false"
+        android:paddingTop="40dp">
+
+        <TextView
+            android:id="@+id/tvNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="5dp"
+            android:text="title: "
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvNameInsert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/tvNameText"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@id/tvNameText"
+            tools:text="A New Hope" />
+
+        <TextView
+            android:id="@+id/tvDirectorText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvNameText"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="12dp"
+            android:text="Director: "
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvDirectorInsert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvNameInsert"
+            android:layout_alignBaseline="@id/tvDirectorText"
+            android:layout_toEndOf="@id/tvDirectorText"
+            tools:text="George Lucas" />
+
+        <TextView
+            android:id="@+id/tvReleaseText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvDirectorText"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="12dp"
+            android:text="Release date: "
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvReleaseInsert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/tvReleaseText"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@id/tvReleaseText"
+            tools:text="1977-05-25" />
+
+        <TextView
+            android:id="@+id/tvOpeningText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvReleaseText"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="12dp"
+            android:text="Opening crawl: "
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/tvOpeningInsert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/tvOpeningText"
+            android:paddingTop="12dp"
+            tools:text="It is a period of civil war.\nRebel spaceships, striking\nfrom a hidden base, have won\ntheir first victory against\nthe evil Galactic Empire.\n\nDuring the battle, Rebel\nspies managed to steal secret\nplans to the Empire's\nultimate weapon, the DEATH\nSTAR, an armored space\nstation with enough power\nto destroy an entire planet.\n\nPursued by the Empire's\nsinister agents, Princess\nLeia races home aboard her\nstarship, custodian of the\nstolen plans that can save her\npeople and restore\nfreedom to the galaxy...." />
+
+        <TextView
+            android:id="@+id/tvPeopleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvOpeningInsert"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="22dp"
+            android:text="People"
+            android:textSize="22sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/peopleRv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/tvPeopleText"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_adapter_list" />
+
+        <TextView
+            android:id="@+id/tvStarshipText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/peopleRv"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="22dp"
+            android:text="Starship"
+            android:textSize="22sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/starshipRv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/tvStarshipText"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_adapter_list"
+            android:layout_marginBottom="200dp"
+            />
+
+
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:foregroundGravity="center"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+
+</ScrollView>

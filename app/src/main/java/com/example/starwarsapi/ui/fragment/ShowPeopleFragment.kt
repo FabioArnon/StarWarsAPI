@@ -35,7 +35,6 @@ class ShowPeopleFragment : BaseFragment() {
         setupRecycleView()
         viewModel.getListPeople()
         setObserves()
-
     }
 
     override fun onCreateView(

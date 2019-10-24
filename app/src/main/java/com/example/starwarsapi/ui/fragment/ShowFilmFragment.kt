@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import com.example.starwarsapi.R
 import com.example.starwarsapi.application.onScrollListener
 import com.example.starwarsapi.models.Films
@@ -21,7 +22,9 @@ class ShowFilmFragment : BaseFragment() {
     private val viewModel: ShowFilmViewModel by viewModel()
     private val adapter =
         ListFilmAdapter(mutableListOf()) {
-
+            val film = it
+            val action = ShowFilmFragmentDirections.actionShowFilmFragmentToDetailFilmFragment(film)
+            view?.findNavController()?.navigate(action)
         }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import com.example.starwarsapi.R
 import com.example.starwarsapi.application.onScrollListener
 import com.example.starwarsapi.models.Species
@@ -24,8 +25,10 @@ class ShowSpecieFragment : BaseFragment() {
     private val viewModel: ShowSpecieViewModel by viewModel()
 
     private val adapter =
-        ListSpecieAdapter(mutableListOf<Species>()) {
-
+        ListSpecieAdapter(mutableListOf()) {
+            val specie = it
+            val action = ShowSpecieFragmentDirections.actionShowSpecieFragmentToDetailSpecieFragment(specie)
+            view?.findNavController()?.navigate(action)
         }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -19,4 +19,7 @@ val viewModelModule = module{
     factory { DetailPeopleViewModel(get(), get(),get()) }
     factory { DetailStarshipViewModel(get(), get(),get()) }
     factory { DetailVehicleViewModel(get(), get(),get()) }
+    factory { DetailPlanetViewModel(get(), get(),get()) }
+    factory { DetailSpecieViewModel(get(), get(),get()) }
+    factory { DetailFilmViewModel(get(), get(),get()) }
 }

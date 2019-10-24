@@ -8,54 +8,52 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.example.starwarsapi.R
 import com.example.starwarsapi.models.Films
+import com.example.starwarsapi.models.People
 import com.example.starwarsapi.models.Starships
-import com.example.starwarsapi.presentation.DetailPeopleViewModel
+import com.example.starwarsapi.presentation.DetailFilmViewModel
 import com.example.starwarsapi.presentation.ViewModelStatusEnum
 import com.example.starwarsapi.presentation.ViewState
-import com.example.starwarsapi.ui.adapter.ListFilmAdapter
+import com.example.starwarsapi.ui.adapter.ListPeopleAdapter
 import com.example.starwarsapi.ui.adapter.ListStarshipAdapter
-import kotlinx.android.synthetic.main.detail_people_fragment.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import kotlinx.android.synthetic.main.detail_film_fragment.*
 
-class DetailPeopleFragment : BaseFragment() {
+class DetailFilmFragment : BaseFragment() {
 
-    private val viewModel: DetailPeopleViewModel by viewModel()
-    val args: DetailPeopleFragmentArgs by navArgs()
+    private val viewModel: DetailFilmViewModel by viewModel()
+    val args: DetailFilmFragmentArgs by navArgs()
 
     private val adapter =
-        ListFilmAdapter(mutableListOf()) {
-            val film = it
-            val action = DetailPeopleFragmentDirections.actionDetailPeopleFragmentToDetailFilmFragment(film)
+        ListPeopleAdapter(mutableListOf()) {
+            val people = it
+            val action = DetailFilmFragmentDirections.actionDetailFilmFragmentToDetailPeopleFragment(people)
             view?.findNavController()?.navigate(action)
         }
 
     private val adapter2 =
         ListStarshipAdapter(mutableListOf()) {
             val starship = it
-            val action = DetailPeopleFragmentDirections.actionDetailPeopleFragmentToDetailStarshipFragment(starship)
+            val action = DetailFilmFragmentDirections.actionDetailFilmFragmentToDetailStarshipFragment(starship)
             view?.findNavController()?.navigate(action)
         }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        //lugar original
+        val film = args.Film
+        tvNameInsert.text = film.title
+        tvDirectorInsert.text = film.director
+        tvReleaseInsert.text = film.releaseDate.toString()
+        tvOpeningInsert.text = film.openingCrawl
+        peopleRv.adapter = adapter
+        starshipRv.adapter = adapter2
+        viewModel.nextPeople(film)
+        viewModel.nextStarship(film)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val people = args.People
-        tvNameInsert.text = people.name
-        tvBirthInsert.text = people.birthYear
-        tvGenderInsert.text = people.gender
-        tvSkinInsert.text = people.skinColor
-        filmRv.adapter = adapter
-        starshipRv.adapter = adapter2
-        viewModel.nextFilm(people)
-        viewModel.nextStarship(people)
         setObserves()
-
-
     }
 
 
@@ -63,13 +61,13 @@ class DetailPeopleFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.detail_people_fragment, container, false)
+        return inflater.inflate(R.layout.detail_film_fragment, container, false)
     }
 
     private fun setObserves() {
         viewModel.getList().observe(this, Observer { viewState ->
             when (viewState.status) {
-                ViewModelStatusEnum.SUCCESS -> setNewItemFilm(viewState)
+                ViewModelStatusEnum.SUCCESS -> setNewItemPeople(viewState)
                 ViewModelStatusEnum.ERROR -> onError(viewState.error)
                 ViewModelStatusEnum.ERROR_LIST_EMPTY ->
                     Toast.makeText(context, "Erro desconhecido", Toast.LENGTH_SHORT).show()
@@ -94,7 +92,7 @@ class DetailPeopleFragment : BaseFragment() {
     }
 
 
-    private fun setNewItemFilm(viewState: ViewState<List<Films>, ViewModelStatusEnum>?) {
+    private fun setNewItemPeople(viewState: ViewState<List<People>, ViewModelStatusEnum>?) {
         viewState?.data?.let { list -> adapter.list.addAll(list) }
         adapter.notifyDataSetChanged()
     }
