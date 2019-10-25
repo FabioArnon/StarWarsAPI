@@ -47,7 +47,16 @@ class DetailPlanetFragment : BaseFragment() {
         return inflater.inflate(R.layout.detail_planet_fragment, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val planet = args.Planet
+        viewModel.nextFilm(planet)
+        viewModel.nextResident(planet)
+        setObserves()
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         val planet = args.Planet
         tvNameInsert.text = planet.name
         tvPopulationInsert.text = planet.population
@@ -55,13 +64,7 @@ class DetailPlanetFragment : BaseFragment() {
         tvOrbitalInsert.text = planet.orbitalPeriod
         filmRv.adapter = adapter
         residentsRv.adapter = adapter2
-        viewModel.nextFilm(planet)
-        viewModel.nextResident(planet)
-    }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        setObserves()
     }
 
     private fun setObserves() {

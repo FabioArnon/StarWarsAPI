@@ -3,9 +3,9 @@ package com.example.starwarsapi.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.starwarsapi.models.Films
-import com.example.starwarsapi.service.Result
-import com.example.starwarsapi.repository.ShowFilmRepository
 import com.example.starwarsapi.presentation.ViewModelStatusEnum.*
+import com.example.starwarsapi.repository.ShowFilmRepository
+import com.example.starwarsapi.service.Result
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -29,6 +29,45 @@ class ShowFilmViewModel(
                                 ViewState(
                                     response.data?.films,
                                     SUCCESS
+                                )
+                            )
+                        } else {
+                            noMoreResults = true
+                            filmLiveData.postValue(
+                                ViewState(
+                                    response.data?.films,
+                                    ERROR_LIST_EMPTY
+                                )
+                            )
+                        }
+                    }
+                    is Result.Failure -> {
+                        error = true
+                        filmLiveData.postValue(
+                            ViewState(
+                                null,
+                                ERROR,
+                                error = response.throwable
+                            )
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    fun searchListFilms(search: String) {
+        filmLiveData.postValue(ViewState(status = LOADING))
+        scope.launch(dispatcherProvider.io) {
+            val response = repository.getSearchFilm(search)
+            withContext(dispatcherProvider.ui) {
+                when (response) {
+                    is Result.Success -> {
+                        if (!response.data?.films.isNullOrEmpty()) {
+                            filmLiveData.postValue(
+                                ViewState(
+                                    response.data?.films,
+                                    SEARCH
                                 )
                             )
                         } else {

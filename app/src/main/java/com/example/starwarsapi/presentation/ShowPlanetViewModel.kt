@@ -54,6 +54,45 @@ class ShowPlanetViewModel(
             }
         }
     }
+
+    fun searchListPlanet(search: String){
+        planetLiveData.postValue(ViewState(status = LOADING))
+        scope.launch(dispatcherProvider.io){
+            val response = repository.searchListPlanet(search)
+            withContext(dispatcherProvider.ui){
+                when(response){
+                    is Result.Success -> {
+                        if(!response.data?.planets.isNullOrEmpty()){
+                            planetLiveData.postValue(
+                                ViewState(
+                                    response.data?.planets,
+                                    SEARCH
+                                )
+                            )
+                        } else{
+                            noMoreResults = true
+                            planetLiveData.postValue(
+                                ViewState(
+                                    response.data?.planets,
+                                    ERROR_LIST_EMPTY
+                                )
+                            )
+                        }
+                    }
+                    is Result.Failure->{
+                        error = true
+                        planetLiveData.postValue(
+                            ViewState(
+                                null,
+                                ERROR,
+                                error = response.throwable
+                            )
+                        )
+                    }
+                }
+            }
+        }
+    }
     override fun nextPage() {
         super.nextPage()
         getListPlanet()

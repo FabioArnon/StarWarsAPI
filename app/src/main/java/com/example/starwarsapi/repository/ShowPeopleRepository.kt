@@ -6,6 +6,7 @@ import com.example.starwarsapi.service.Result
 
 interface ShowPeopleRepository {
     suspend fun getListPeople(currentPage: Int): Result<PeopleResponse?>
+    suspend fun getSearchPeople(search: String): Result<PeopleResponse?>
     suspend fun getPeopleId(id: List<String>): Result<List<People>>
 
 }

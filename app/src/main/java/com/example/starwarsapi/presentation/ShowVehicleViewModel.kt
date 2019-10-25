@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.starwarsapi.models.Vehicles
 import com.example.starwarsapi.presentation.ViewModelStatusEnum.*
-import com.example.starwarsapi.service.Result
 import com.example.starwarsapi.repository.ShowVehicleRepository
+import com.example.starwarsapi.service.Result
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -18,19 +18,19 @@ class ShowVehicleViewModel(
 
     fun getListVehicle() {
         vehicleLiveData.postValue(ViewState(status = LOADING))
-        scope.launch(dispatcherProvider.io){
+        scope.launch(dispatcherProvider.io) {
             val response = repository.getListVehicles(currentPage)
-            withContext(dispatcherProvider.ui){
-                when(response){
+            withContext(dispatcherProvider.ui) {
+                when (response) {
                     is Result.Success -> {
-                        if(!response.data?.vehicles.isNullOrEmpty()){
+                        if (!response.data?.vehicles.isNullOrEmpty()) {
                             vehicleLiveData.postValue(
                                 ViewState(
                                     response.data?.vehicles,
                                     SUCCESS
                                 )
                             )
-                        } else{
+                        } else {
                             noMoreResults = true
                             vehicleLiveData.postValue(
                                 ViewState(
@@ -40,7 +40,7 @@ class ShowVehicleViewModel(
                             )
                         }
                     }
-                    is Result.Failure->{
+                    is Result.Failure -> {
                         error = true
                         vehicleLiveData.postValue(
                             ViewState(
@@ -54,6 +54,47 @@ class ShowVehicleViewModel(
             }
         }
     }
+
+    fun searchListVehicle(search: String) {
+        vehicleLiveData.postValue(ViewState(status = LOADING))
+        scope.launch(dispatcherProvider.io) {
+            val response = repository.searchListVehicles(search)
+            withContext(dispatcherProvider.ui) {
+                when (response) {
+                    is Result.Success -> {
+                        if (!response.data?.vehicles.isNullOrEmpty()) {
+                            vehicleLiveData.postValue(
+                                ViewState(
+                                    response.data?.vehicles,
+                                    SEARCH
+                                )
+                            )
+                        } else {
+                            noMoreResults = true
+                            vehicleLiveData.postValue(
+                                ViewState(
+                                    response.data?.vehicles,
+                                    ERROR_LIST_EMPTY
+                                )
+                            )
+                        }
+                    }
+                    is Result.Failure -> {
+                        error = true
+                        vehicleLiveData.postValue(
+                            ViewState(
+                                null,
+                                ERROR,
+                                error = response.throwable
+                            )
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+
     override fun nextPage() {
         super.nextPage()
         getListVehicle()

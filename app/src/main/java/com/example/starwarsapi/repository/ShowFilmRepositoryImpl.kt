@@ -7,7 +7,14 @@ import com.example.starwarsapi.service.RetrofitInterface
 
 class ShowFilmRepositoryImpl(private val client: RetrofitInterface) : ShowFilmRepository {
     override suspend fun getListFilm(currentPage: Int): Result<FilmResponse?> {
-        val response = client.getFilms(currentPage)
+        val response = client.getFilms(currentPage, "")
+        return if (response.isSuccessful) {
+            Result.Success(response.body())
+        } else Result.Failure(Throwable("Erro ${response.code()} ${response.message()}"))
+    }
+
+    override suspend fun getSearchFilm(search: String): Result<FilmResponse?> {
+        val response = client.getFilms(1, search)
         return if (response.isSuccessful) {
             Result.Success(response.body())
         } else Result.Failure(Throwable("Erro ${response.code()} ${response.message()}"))

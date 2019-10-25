@@ -56,6 +56,45 @@ class ShowSpecieViewModel(
         }
     }
 
+    fun searchListSpecies(search: String) {
+        specieLiveData.postValue(ViewState(status = LOADING))
+        scope.launch(dispatcherProvider.io) {
+            val response = repository.searchListSpecies(search)
+            withContext(dispatcherProvider.ui) {
+                when (response) {
+                    is Result.Success -> {
+                        if (!response.data?.species.isNullOrEmpty()) {
+                            specieLiveData.postValue(
+                                ViewState(
+                                    response.data?.species,
+                                    SEARCH
+                                )
+                            )
+                        } else {
+                            noMoreResults = true
+                            specieLiveData.postValue(
+                                ViewState(
+                                    response.data?.species,
+                                    ERROR_LIST_EMPTY
+                                )
+                            )
+                        }
+                    }
+                    is Result.Failure -> {
+                        error = true
+                        specieLiveData.postValue(
+                            ViewState(
+                                null,
+                                ERROR,
+                                error = response.throwable
+                            )
+                        )
+                    }
+                }
+            }
+        }
+    }
+
     override fun nextPage() {
         super.nextPage()
         getListSpecies()

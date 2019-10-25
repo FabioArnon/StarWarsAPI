@@ -47,7 +47,16 @@ class DetailStarshipFragment : BaseFragment() {
         return inflater.inflate(R.layout.detail_starship_fragment, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val starship = args.Starship
+        viewModel.nextFilm(starship)
+        viewModel.nextPilot(starship)
+        setObserves()
+
+    }
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         val starship = args.Starship
         tvNameInsert.text = starship.name
         tvModelInsert.text = starship.model
@@ -55,13 +64,6 @@ class DetailStarshipFragment : BaseFragment() {
         tvClassInsert.text = starship.starshipClass
         filmRv.adapter = adapter
         pilotRv.adapter = adapter2
-        viewModel.nextFilm(starship)
-        viewModel.nextPilot(starship)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        setObserves()
     }
 
     private fun setObserves() {

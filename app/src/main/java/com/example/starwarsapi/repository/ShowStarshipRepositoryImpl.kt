@@ -7,7 +7,14 @@ import com.example.starwarsapi.service.RetrofitInterface
 
 class ShowStarshipRepositoryImpl(private val client: RetrofitInterface): ShowStarshipRepository{
     override suspend fun getListStarships(currentPage: Int): Result<StarshipResponse?> {
-        val response = client.getstarships(currentPage)
+        val response = client.getstarships(currentPage,"")
+        return if (response.isSuccessful) {
+            Result.Success(response.body())
+        } else Result.Failure(Throwable("Erro ${response.code()} ${response.message()}"))
+    }
+
+    override suspend fun searchListStarships(search: String): Result<StarshipResponse?> {
+        val response = client.getstarships(1, search)
         return if (response.isSuccessful) {
             Result.Success(response.body())
         } else Result.Failure(Throwable("Erro ${response.code()} ${response.message()}"))

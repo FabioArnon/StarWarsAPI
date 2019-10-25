@@ -46,12 +46,16 @@ class DetailSpecieFragment : BaseFragment() {
         return inflater.inflate(R.layout.detail_specie_fragment, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val specie = args.Specie
+        viewModel.nextFilm(specie)
+        viewModel.nextResident(specie)
         setObserves()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         val specie = args.Specie
         tvNameInsert.text = specie.name
         tvClassificationInsert.text = specie.classification
@@ -59,9 +63,9 @@ class DetailSpecieFragment : BaseFragment() {
         tvLifespanInsert.text = specie.averageLifespan
         filmRv.adapter = adapter
         peopleRv.adapter = adapter2
-        viewModel.nextFilm(specie)
-        viewModel.nextResident(specie)
+
     }
+
     private fun setObserves() {
         viewModel.getList().observe(this, Observer { viewState ->
             when (viewState.status) {

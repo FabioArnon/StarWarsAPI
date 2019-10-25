@@ -38,8 +38,12 @@ class DetailPeopleFragment : BaseFragment() {
             view?.findNavController()?.navigate(action)
         }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        //lugar original
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val people = args.People
+        viewModel.nextFilm(people)
+        viewModel.nextStarship(people)
+        setObserves()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -51,11 +55,6 @@ class DetailPeopleFragment : BaseFragment() {
         tvSkinInsert.text = people.skinColor
         filmRv.adapter = adapter
         starshipRv.adapter = adapter2
-        viewModel.nextFilm(people)
-        viewModel.nextStarship(people)
-        setObserves()
-
-
     }
 
 

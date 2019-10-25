@@ -8,9 +8,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.example.starwarsapi.R
-import com.example.starwarsapi.models.Films
 import com.example.starwarsapi.models.People
 import com.example.starwarsapi.models.Starships
 import com.example.starwarsapi.presentation.DetailFilmViewModel
@@ -19,6 +17,7 @@ import com.example.starwarsapi.presentation.ViewState
 import com.example.starwarsapi.ui.adapter.ListPeopleAdapter
 import com.example.starwarsapi.ui.adapter.ListStarshipAdapter
 import kotlinx.android.synthetic.main.detail_film_fragment.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailFilmFragment : BaseFragment() {
 
@@ -28,18 +27,31 @@ class DetailFilmFragment : BaseFragment() {
     private val adapter =
         ListPeopleAdapter(mutableListOf()) {
             val people = it
-            val action = DetailFilmFragmentDirections.actionDetailFilmFragmentToDetailPeopleFragment(people)
+            val action =
+                DetailFilmFragmentDirections.actionDetailFilmFragmentToDetailPeopleFragment(people)
             view?.findNavController()?.navigate(action)
         }
 
     private val adapter2 =
         ListStarshipAdapter(mutableListOf()) {
             val starship = it
-            val action = DetailFilmFragmentDirections.actionDetailFilmFragmentToDetailStarshipFragment(starship)
+            val action =
+                DetailFilmFragmentDirections.actionDetailFilmFragmentToDetailStarshipFragment(
+                    starship
+                )
             view?.findNavController()?.navigate(action)
         }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val film = args.Film
+        viewModel.nextPeople(film)
+        viewModel.nextStarship(film)
+        setObserves()
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         val film = args.Film
         tvNameInsert.text = film.title
         tvDirectorInsert.text = film.director
@@ -47,13 +59,6 @@ class DetailFilmFragment : BaseFragment() {
         tvOpeningInsert.text = film.openingCrawl
         peopleRv.adapter = adapter
         starshipRv.adapter = adapter2
-        viewModel.nextPeople(film)
-        viewModel.nextStarship(film)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        setObserves()
     }
 
 

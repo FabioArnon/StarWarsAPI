@@ -7,10 +7,17 @@ import com.example.starwarsapi.service.RetrofitInterface
 
 class ShowPeopleRepositoryImpl(private val client: RetrofitInterface): ShowPeopleRepository{
     override suspend fun getListPeople(currentPage: Int): Result<PeopleResponse?> {
-            val response = client.getpeople(currentPage)
+            val response = client.getpeople(currentPage, "")
             return if (response.isSuccessful) {
                 Result.Success(response.body())
             } else Result.Failure(Throwable("Erro ${response.code()} ${response.message()}"))
+    }
+
+    override suspend fun getSearchPeople(search: String): Result<PeopleResponse?> {
+        val response = client.getpeople(1, search)
+        return if (response.isSuccessful) {
+            Result.Success(response.body())
+        } else Result.Failure(Throwable("Erro ${response.code()} ${response.message()}"))
     }
 
     override suspend fun getPeopleId(id: List<String>): Result<List<People>> {
