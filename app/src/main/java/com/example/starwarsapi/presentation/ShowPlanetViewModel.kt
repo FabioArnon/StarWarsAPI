@@ -2,35 +2,37 @@ package com.example.starwarsapi.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.starwarsapi.application.pages
 import com.example.starwarsapi.models.Planets
 import com.example.starwarsapi.presentation.ViewModelStatusEnum.*
-import com.example.starwarsapi.service.Result
 import com.example.starwarsapi.repository.ShowPlanetRepository
+import com.example.starwarsapi.service.Result
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ShowPlanetViewModel(
     private val repository: ShowPlanetRepository,
     private val dispatcherProvider: DispatcherProvider
-): BaseViewModel(dispatcherProvider) {
+) : BaseViewModel(dispatcherProvider) {
     private val planetLiveData = MutableLiveData<ViewState<List<Planets>, ViewModelStatusEnum>>()
     fun getList(): LiveData<ViewState<List<Planets>, ViewModelStatusEnum>> = planetLiveData
 
-    fun getListPlanet(){
+    fun getListPlanet() {
         planetLiveData.postValue(ViewState(status = LOADING))
-        scope.launch(dispatcherProvider.io){
+        scope.launch(dispatcherProvider.io) {
             val response = repository.getListPlanet(currentPage)
-            withContext(dispatcherProvider.ui){
-                when(response){
+            withContext(dispatcherProvider.ui) {
+                when (response) {
                     is Result.Success -> {
-                        if(!response.data?.planets.isNullOrEmpty()){
+                        if (!response.data?.planets.isNullOrEmpty()) {
+                            maxPage = pages(response.data?.count!!)
                             planetLiveData.postValue(
                                 ViewState(
-                                    response.data?.planets,
+                                    response.data.planets,
                                     SUCCESS
                                 )
                             )
-                        } else{
+                        } else {
                             noMoreResults = true
                             planetLiveData.postValue(
                                 ViewState(
@@ -40,7 +42,7 @@ class ShowPlanetViewModel(
                             )
                         }
                     }
-                    is Result.Failure->{
+                    is Result.Failure -> {
                         error = true
                         planetLiveData.postValue(
                             ViewState(
@@ -55,21 +57,22 @@ class ShowPlanetViewModel(
         }
     }
 
-    fun searchListPlanet(search: String){
+    fun searchListPlanet() {
         planetLiveData.postValue(ViewState(status = LOADING))
-        scope.launch(dispatcherProvider.io){
-            val response = repository.searchListPlanet(search)
-            withContext(dispatcherProvider.ui){
-                when(response){
+        scope.launch(dispatcherProvider.io) {
+            val response = repository.searchListPlanet(currentPage, search)
+            withContext(dispatcherProvider.ui) {
+                when (response) {
                     is Result.Success -> {
-                        if(!response.data?.planets.isNullOrEmpty()){
+                        if (!response.data?.planets.isNullOrEmpty()) {
+                            maxPage = pages(response.data?.count!!)
                             planetLiveData.postValue(
                                 ViewState(
-                                    response.data?.planets,
-                                    SEARCH
+                                    response.data.planets,
+                                    SUCCESS
                                 )
                             )
-                        } else{
+                        } else {
                             noMoreResults = true
                             planetLiveData.postValue(
                                 ViewState(
@@ -79,7 +82,7 @@ class ShowPlanetViewModel(
                             )
                         }
                     }
-                    is Result.Failure->{
+                    is Result.Failure -> {
                         error = true
                         planetLiveData.postValue(
                             ViewState(
@@ -93,8 +96,25 @@ class ShowPlanetViewModel(
             }
         }
     }
+
+    fun searchController(aux: String) {
+        if (search != aux) {
+            currentPage = 1
+        }
+        if (aux != "") {
+            search = aux
+            searchListPlanet()
+        } else {
+            search = ""
+            getListPlanet()
+        }
+    }
+
     override fun nextPage() {
         super.nextPage()
-        getListPlanet()
+        if (maxPage >= currentPage) {
+            if (search == "") getListPlanet()
+            else searchListPlanet()
+        }
     }
 }

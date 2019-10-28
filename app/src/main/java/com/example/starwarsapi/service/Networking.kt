@@ -4,6 +4,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 class Networking {
     companion object{
@@ -26,6 +27,9 @@ class Networking {
         fun getOkHttp(): OkHttpClient.Builder {
             val okHttp = OkHttpClient.Builder()
             val logging = HttpLoggingInterceptor()
+            okHttp.writeTimeout(15,TimeUnit.SECONDS)
+            okHttp.readTimeout(15,TimeUnit.SECONDS)
+            okHttp.connectTimeout(15,TimeUnit.SECONDS)
             logging.apply {
                 level = HttpLoggingInterceptor.Level.BODY
             }

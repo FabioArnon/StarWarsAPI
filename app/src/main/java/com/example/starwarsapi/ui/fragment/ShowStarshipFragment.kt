@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import com.example.starwarsapi.R
@@ -15,19 +16,19 @@ import com.example.starwarsapi.presentation.ViewModelStatusEnum
 import com.example.starwarsapi.presentation.ViewModelStatusEnum.*
 import com.example.starwarsapi.presentation.ViewState
 import com.example.starwarsapi.ui.adapter.ListStarshipAdapter
-import kotlinx.android.synthetic.main.fragment_show_people.*
 import kotlinx.android.synthetic.main.fragment_show_people.rvSearchActivityList
 import kotlinx.android.synthetic.main.fragment_show_starship.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.*
-import kotlin.concurrent.schedule
 
 class ShowStarshipFragment : BaseFragment() {
+
     private val viewModel: ShowStarshipViewModel by viewModel()
+
     private val adapter =
         ListStarshipAdapter(mutableListOf()) {
-            val starships = it
-            val action = ShowStarshipFragmentDirections.actionShowStarshipFragmentToDetailStarshipFragment(starships)
+            val starship = it
+            val action =
+                ShowStarshipFragmentDirections.actionShowStarshipFragmentToDetailStarshipFragment(starship)
             view?.findNavController()?.navigate(action)
         }
 
@@ -43,19 +44,13 @@ class ShowStarshipFragment : BaseFragment() {
         svStarship.onSearchDelayedOrCanceledListener {
             it?.let { it1 ->
                 adapter.list.clear()
-                viewModel.searchListStarship(it1)
+                viewModel.searchController(it1)
             }
 
             if (it == "") {
-                viewModel.currentPage = 1
                 adapter.list.clear()
-                Timer().schedule(1000) {
-                    viewModel.nextPage()
-                }
             }
         }
-
-
     }
 
     override fun onCreateView(
@@ -68,7 +63,7 @@ class ShowStarshipFragment : BaseFragment() {
 
     private fun setupRecycleView() {
         rvSearchActivityList.onScrollListener {
-            if (LOADING != viewModel.getList().value?.status && SEARCH != viewModel.getList().value?.status && !rvSearchActivityList.canScrollVertically(
+            if (LOADING != viewModel.getList().value?.status && !rvSearchActivityList.canScrollVertically(
                     1
                 )
                 && ERROR != viewModel.getList().value?.status && ERROR_LIST_EMPTY != viewModel.getList().value?.status
@@ -83,12 +78,23 @@ class ShowStarshipFragment : BaseFragment() {
         viewModel.getList().observe(this, Observer { viewState ->
             when (viewState.status) {
                 SUCCESS -> openNextActivity(viewState)
-                SEARCH -> openNextActivity(viewState)
+                ERROR -> onError(viewState.error)
+                LOADING -> showLoading()
             }
         })
     }
 
+    private fun showLoading() {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    private fun onError(error: Throwable?) {
+        Toast.makeText(context, error?.message ?: "Erro desconhecido", Toast.LENGTH_SHORT).show()
+        progressBar.visibility = View.GONE
+    }
+
     private fun openNextActivity(viewState: ViewState<List<Starships>, ViewModelStatusEnum>?) {
+        progressBar.visibility = View.GONE
         viewState?.data?.let { list -> adapter.list.addAll(list) }
         adapter.notifyDataSetChanged()
     }

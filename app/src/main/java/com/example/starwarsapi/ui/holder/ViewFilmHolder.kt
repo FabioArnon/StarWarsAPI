@@ -11,13 +11,13 @@ class ViewFilmHolder(
 ): RecyclerView.ViewHolder(view){
     fun bindView(item: Films){
         view.setOnClickListener { onClick(item) }
-        view.name.text = "title:"
+        view.name.text = "title: "
         view.nameInsert.text = item.title
-        view.segundoText.text = "episode_id:"
+        view.segundoText.text = "episode_id: "
         view.segundoInsert.text = item.episodeId.toString()
-        view.terceiroText.text = "release date:"
+        view.terceiroText.text = "release date: "
         view.terceiroInsert.text = item.releaseDate.toString()
-        view.quartoText.text = "director:"
+        view.quartoText.text = "director: "
         view.quartoInsert.text = item.director
     }
 }

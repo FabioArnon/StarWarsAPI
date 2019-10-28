@@ -2,6 +2,7 @@ package com.example.starwarsapi.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.starwarsapi.application.pages
 import com.example.starwarsapi.models.Films
 import com.example.starwarsapi.presentation.ViewModelStatusEnum.*
 import com.example.starwarsapi.repository.ShowFilmRepository
@@ -25,9 +26,10 @@ class ShowFilmViewModel(
                 when (response) {
                     is Result.Success -> {
                         if (!response.data?.films.isNullOrEmpty()) {
+                            maxPage = pages(response.data?.count!!)
                             filmLiveData.postValue(
                                 ViewState(
-                                    response.data?.films,
+                                    response.data.films,
                                     SUCCESS
                                 )
                             )
@@ -56,7 +58,7 @@ class ShowFilmViewModel(
         }
     }
 
-    fun searchListFilms(search: String) {
+    fun searchListFilms() {
         filmLiveData.postValue(ViewState(status = LOADING))
         scope.launch(dispatcherProvider.io) {
             val response = repository.getSearchFilm(search)
@@ -64,10 +66,11 @@ class ShowFilmViewModel(
                 when (response) {
                     is Result.Success -> {
                         if (!response.data?.films.isNullOrEmpty()) {
+                            maxPage = pages(response.data?.count!!)
                             filmLiveData.postValue(
                                 ViewState(
-                                    response.data?.films,
-                                    SEARCH
+                                    response.data.films,
+                                    SUCCESS
                                 )
                             )
                         } else {
@@ -95,8 +98,25 @@ class ShowFilmViewModel(
         }
     }
 
+    fun searchController(aux: String) {
+        if (search != aux) {
+            currentPage = 1
+        }
+        if (aux != "") {
+            search = aux
+            searchListFilms()
+        } else {
+            search = ""
+            getListFilms()
+        }
+    }
+
     override fun nextPage() {
         super.nextPage()
-        getListFilms()
+        if(maxPage >= currentPage) {
+            if (search == "") getListFilms()
+            else searchListFilms()
+
+        }
     }
 }

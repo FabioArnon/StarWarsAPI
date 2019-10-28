@@ -2,6 +2,7 @@ package com.example.starwarsapi.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.starwarsapi.application.pages
 import com.example.starwarsapi.models.Species
 import com.example.starwarsapi.service.Result
 import com.example.starwarsapi.repository.ShowSpecieRepository
@@ -25,9 +26,10 @@ class ShowSpecieViewModel(
                 when (response) {
                     is Result.Success -> {
                         if (!response.data?.species.isNullOrEmpty()) {
+                            maxPage = pages(response.data?.count!!)
                             specieLiveData.postValue(
                                 ViewState(
-                                    response.data?.species,
+                                    response.data.species,
                                     SUCCESS
                                 )
                             )
@@ -56,18 +58,19 @@ class ShowSpecieViewModel(
         }
     }
 
-    fun searchListSpecies(search: String) {
+    fun searchListSpecies() {
         specieLiveData.postValue(ViewState(status = LOADING))
         scope.launch(dispatcherProvider.io) {
-            val response = repository.searchListSpecies(search)
+            val response = repository.searchListSpecies(currentPage, search)
             withContext(dispatcherProvider.ui) {
                 when (response) {
                     is Result.Success -> {
                         if (!response.data?.species.isNullOrEmpty()) {
+                            maxPage = pages(response.data?.count!!)
                             specieLiveData.postValue(
                                 ViewState(
-                                    response.data?.species,
-                                    SEARCH
+                                    response.data.species,
+                                    SUCCESS
                                 )
                             )
                         } else {
@@ -95,8 +98,26 @@ class ShowSpecieViewModel(
         }
     }
 
+    fun searchController(aux: String) {
+        if (search != aux) {
+            currentPage = 1
+        }
+        if (aux != "") {
+            search = aux
+            searchListSpecies()
+        } else {
+            search = ""
+            getListSpecies()
+        }
+    }
+
+
     override fun nextPage() {
         super.nextPage()
-        getListSpecies()
+        if(maxPage >= currentPage) {
+            if (search == "") getListSpecies()
+            else searchListSpecies()
+
+        }
     }
 }

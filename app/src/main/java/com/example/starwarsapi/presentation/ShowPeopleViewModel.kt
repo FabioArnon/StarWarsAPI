@@ -2,13 +2,13 @@ package com.example.starwarsapi.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.starwarsapi.application.pages
 import com.example.starwarsapi.models.People
-import com.example.starwarsapi.service.Result
-import com.example.starwarsapi.repository.ShowPeopleRepository
 import com.example.starwarsapi.presentation.ViewModelStatusEnum.*
+import com.example.starwarsapi.repository.ShowPeopleRepository
+import com.example.starwarsapi.service.Result
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
 
 class ShowPeopleViewModel(
     private val repository: ShowPeopleRepository,
@@ -25,9 +25,10 @@ class ShowPeopleViewModel(
                 when (response) {
                     is Result.Success -> {
                         if (!response.data?.peoples.isNullOrEmpty()) {
+                            maxPage = pages(response.data?.count!!)
                             peopleLiveData.postValue(
                                 ViewState(
-                                    response.data?.peoples,
+                                    response.data.peoples,
                                     SUCCESS
                                 )
                             )
@@ -56,18 +57,19 @@ class ShowPeopleViewModel(
         }
     }
 
-    fun searchListPeople(search: String) {
+    fun searchListPeople() {
         peopleLiveData.postValue(ViewState(status = LOADING))
         scope.launch(dispatcherProvider.io) {
-            val response = repository.getSearchPeople(search)
+            val response = repository.getSearchPeople(currentPage, search)
             withContext(dispatcherProvider.ui) {
                 when (response) {
                     is Result.Success -> {
                         if (!response.data?.peoples.isNullOrEmpty()) {
+                            maxPage = pages(response.data?.count!!)
                             peopleLiveData.postValue(
                                 ViewState(
-                                    response.data?.peoples,
-                                    SEARCH
+                                    response.data.peoples,
+                                    SUCCESS
                                 )
                             )
                         } else {
@@ -95,8 +97,24 @@ class ShowPeopleViewModel(
         }
     }
 
+    fun searchController(aux: String) {
+        if (search != aux) {
+            currentPage = 1
+        }
+        if (aux != "") {
+            search = aux
+            searchListPeople()
+        } else {
+            search = ""
+            getListPeople()
+        }
+    }
+
     override fun nextPage() {
         super.nextPage()
-        getListPeople()
+        if (maxPage >= currentPage) {
+            if (search == "") getListPeople()
+            else searchListPeople()
+        }
     }
 }

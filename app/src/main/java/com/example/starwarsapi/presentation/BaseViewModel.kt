@@ -7,6 +7,8 @@ import org.koin.core.KoinComponent
 
 open class BaseViewModel(dispatcherProvider: DispatcherProvider): ViewModel(), KoinComponent {
     var currentPage:Int = 1
+    var search: String = ""
+    var maxPage: Int = 1
     open var noMoreResults:Boolean = false
     open var error:Boolean = false
     private val viewModelJob = SupervisorJob()
@@ -19,7 +21,7 @@ open class BaseViewModel(dispatcherProvider: DispatcherProvider): ViewModel(), K
     }
 
     open fun nextPage(){
-        if(error||noMoreResults) return
+        if(error||noMoreResults||maxPage < currentPage) return
         currentPage++
     }
 }

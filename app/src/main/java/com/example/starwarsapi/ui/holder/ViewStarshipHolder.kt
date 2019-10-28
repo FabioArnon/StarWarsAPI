@@ -12,11 +12,11 @@ class ViewStarshipHolder(
     fun bindView(item: Starships) {
         view.setOnClickListener { onClick(item) }
         view.nameInsert.text = item.name
-        view.segundoText.text = "model:"
+        view.segundoText.text = "model: "
         view.segundoInsert.text = item.model
-        view.terceiroText.text = "Cost in Credits:"
+        view.terceiroText.text = "Cost in Credits: "
         view.terceiroInsert.text = item.cost
-        view.quartoText.text = "passengers:"
+        view.quartoText.text = "passengers: "
         view.quartoInsert.text = item.passengers
     }
 }

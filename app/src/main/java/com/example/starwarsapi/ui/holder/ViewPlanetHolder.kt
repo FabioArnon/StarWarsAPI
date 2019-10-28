@@ -12,11 +12,11 @@ class ViewPlanetHolder(
     fun bindView(item: Planets){
         view.setOnClickListener { onClick(item) }
         view.nameInsert.text = item.name
-        view.segundoText.text = "diameter:"
+        view.segundoText.text = "diameter: "
         view.segundoInsert.text = item.diameter
-        view.terceiroText.text = "orbitalPeriod:"
+        view.terceiroText.text = "orbitalPeriod: "
         view.terceiroInsert.text = item.orbitalPeriod
-        view.quartoText.text = "population:"
+        view.quartoText.text = "population: "
         view.quartoInsert.text = item.population
     }
 }

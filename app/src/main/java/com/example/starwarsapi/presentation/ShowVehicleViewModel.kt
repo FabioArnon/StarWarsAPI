@@ -2,6 +2,7 @@ package com.example.starwarsapi.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.starwarsapi.application.pages
 import com.example.starwarsapi.models.Vehicles
 import com.example.starwarsapi.presentation.ViewModelStatusEnum.*
 import com.example.starwarsapi.repository.ShowVehicleRepository
@@ -24,9 +25,10 @@ class ShowVehicleViewModel(
                 when (response) {
                     is Result.Success -> {
                         if (!response.data?.vehicles.isNullOrEmpty()) {
+                            maxPage = pages(response.data?.count!!)
                             vehicleLiveData.postValue(
                                 ViewState(
-                                    response.data?.vehicles,
+                                    response.data.vehicles,
                                     SUCCESS
                                 )
                             )
@@ -55,18 +57,19 @@ class ShowVehicleViewModel(
         }
     }
 
-    fun searchListVehicle(search: String) {
+    fun searchListVehicle() {
         vehicleLiveData.postValue(ViewState(status = LOADING))
         scope.launch(dispatcherProvider.io) {
-            val response = repository.searchListVehicles(search)
+            val response = repository.searchListVehicles(currentPage, search)
             withContext(dispatcherProvider.ui) {
                 when (response) {
                     is Result.Success -> {
                         if (!response.data?.vehicles.isNullOrEmpty()) {
+                            maxPage = pages(response.data?.count!!)
                             vehicleLiveData.postValue(
                                 ViewState(
-                                    response.data?.vehicles,
-                                    SEARCH
+                                    response.data.vehicles,
+                                    SUCCESS
                                 )
                             )
                         } else {
@@ -94,9 +97,25 @@ class ShowVehicleViewModel(
         }
     }
 
+    fun searchController(aux: String) {
+        if (search != aux) {
+            currentPage = 1
+        }
+        if (aux != "") {
+            search = aux
+            searchListVehicle()
+        } else {
+            search = ""
+            getListVehicle()
+        }
+    }
 
     override fun nextPage() {
         super.nextPage()
-        getListVehicle()
+        if (maxPage >= currentPage) {
+            if (search == "") getListVehicle()
+            else searchListVehicle()
+        }
+
     }
 }

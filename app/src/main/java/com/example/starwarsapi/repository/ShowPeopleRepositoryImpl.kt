@@ -1,31 +1,27 @@
 package com.example.starwarsapi.repository
 
+import com.example.starwarsapi.application.safeAppCall
 import com.example.starwarsapi.models.People
 import com.example.starwarsapi.models.PeopleResponse
 import com.example.starwarsapi.service.Result
 import com.example.starwarsapi.service.RetrofitInterface
 
 class ShowPeopleRepositoryImpl(private val client: RetrofitInterface): ShowPeopleRepository{
-    override suspend fun getListPeople(currentPage: Int): Result<PeopleResponse?> {
-            val response = client.getpeople(currentPage, "")
-            return if (response.isSuccessful) {
-                Result.Success(response.body())
-            } else Result.Failure(Throwable("Erro ${response.code()} ${response.message()}"))
+    override suspend fun getListPeople(currentPage: Int): Result<PeopleResponse?> = safeAppCall {
+        client.getpeople(currentPage, "")
     }
 
-    override suspend fun getSearchPeople(search: String): Result<PeopleResponse?> {
-        val response = client.getpeople(1, search)
-        return if (response.isSuccessful) {
-            Result.Success(response.body())
-        } else Result.Failure(Throwable("Erro ${response.code()} ${response.message()}"))
+
+    override suspend fun getSearchPeople(currentPage: Int,search: String): Result<PeopleResponse?> = safeAppCall {
+        client.getpeople(currentPage, search)
     }
 
     override suspend fun getPeopleId(id: List<String>): Result<List<People>> {
         val list = mutableListOf<People>()
         id.map {
-            val response = client.getpeopleId(it)
-            if (response.isSuccessful){
-                response.body()?.let { people -> list.add(people) }
+            when(val response = safeAppCall{client.getpeopleId(it)}){
+                is Result.Success -> list.add(response.data)
+                is Result.Failure -> {}
             }
         }
         return if(list.size == id.size){

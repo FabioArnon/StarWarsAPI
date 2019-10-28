@@ -2,6 +2,7 @@ package com.example.starwarsapi.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.starwarsapi.application.pages
 import com.example.starwarsapi.models.Starships
 import com.example.starwarsapi.presentation.ViewModelStatusEnum.*
 import com.example.starwarsapi.service.Result
@@ -24,9 +25,10 @@ class ShowStarshipViewModel(
                 when(response){
                     is Result.Success -> {
                         if(!response.data?.starships.isNullOrEmpty()){
+                            maxPage = pages(response.data?.count!!)
                             starshipLiveData.postValue(
                                 ViewState(
-                                    response.data?.starships,
+                                    response.data.starships,
                                     SUCCESS
                                 )
                             )
@@ -54,18 +56,19 @@ class ShowStarshipViewModel(
             }
         }
     }
-    fun searchListStarship(search: String){
+    fun searchListStarship(){
         starshipLiveData.postValue(ViewState(status = LOADING))
         scope.launch(dispatcherProvider.io){
-            val response = repository.searchListStarships(search)
+            val response = repository.searchListStarships(currentPage, search)
             withContext(dispatcherProvider.ui){
                 when(response){
                     is Result.Success -> {
                         if(!response.data?.starships.isNullOrEmpty()){
+                            maxPage = pages(response.data?.count!!)
                             starshipLiveData.postValue(
                                 ViewState(
-                                    response.data?.starships,
-                                    SEARCH
+                                    response.data.starships,
+                                    SUCCESS
                                 )
                             )
                         } else{
@@ -92,8 +95,26 @@ class ShowStarshipViewModel(
             }
         }
     }
+
+    fun searchController(aux: String) {
+        if (search != aux) {
+            currentPage = 1
+        }
+        if (aux != "") {
+            search = aux
+            searchListStarship()
+        } else {
+            search = ""
+            getListStarship()
+        }
+    }
+
     override fun nextPage() {
         super.nextPage()
-        getListStarship()
+        if (maxPage >= currentPage) {
+            if (search == "") getListStarship()
+            else searchListStarship()
+        }
+
     }
 }

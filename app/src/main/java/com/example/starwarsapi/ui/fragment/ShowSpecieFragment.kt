@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import com.example.starwarsapi.R
@@ -18,20 +19,16 @@ import com.example.starwarsapi.ui.adapter.ListSpecieAdapter
 import kotlinx.android.synthetic.main.fragment_show_people.rvSearchActivityList
 import kotlinx.android.synthetic.main.fragment_show_specie.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.*
-import kotlin.concurrent.schedule
 
 
 class ShowSpecieFragment : BaseFragment() {
-
 
     private val viewModel: ShowSpecieViewModel by viewModel()
 
     private val adapter =
         ListSpecieAdapter(mutableListOf()) {
             val specie = it
-            val action =
-                ShowSpecieFragmentDirections.actionShowSpecieFragmentToDetailSpecieFragment(specie)
+            val action = ShowSpecieFragmentDirections.actionShowSpecieFragmentToDetailSpecieFragment(specie)
             view?.findNavController()?.navigate(action)
         }
 
@@ -47,15 +44,11 @@ class ShowSpecieFragment : BaseFragment() {
         svSpecie.onSearchDelayedOrCanceledListener {
             it?.let { it1 ->
                 adapter.list.clear()
-                viewModel.searchListSpecies(it1)
+                viewModel.searchController(it1)
             }
 
             if (it == "") {
-                viewModel.currentPage = 1
                 adapter.list.clear()
-                Timer().schedule(1000) {
-                    viewModel.nextPage()
-                }
             }
         }
     }
@@ -71,8 +64,9 @@ class ShowSpecieFragment : BaseFragment() {
 
     private fun setupRecycleView() {
         rvSearchActivityList.onScrollListener {
-            if (LOADING != viewModel.getList().value?.status && SEARCH != viewModel.getList().value?.status
-                && !rvSearchActivityList.canScrollVertically(1)
+            if (LOADING != viewModel.getList().value?.status && !rvSearchActivityList.canScrollVertically(
+                    1
+                )
                 && ERROR != viewModel.getList().value?.status && ERROR_LIST_EMPTY != viewModel.getList().value?.status
             ) {
                 viewModel.nextPage()
@@ -85,12 +79,23 @@ class ShowSpecieFragment : BaseFragment() {
         viewModel.getList().observe(this, Observer { viewState ->
             when (viewState.status) {
                 SUCCESS -> openNextActivity(viewState)
-                SEARCH -> openNextActivity(viewState)
+                ERROR -> onError(viewState.error)
+                LOADING -> showLoading()
             }
         })
     }
 
+    private fun showLoading() {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    private fun onError(error: Throwable?) {
+        Toast.makeText(context, error?.message ?: "Erro desconhecido", Toast.LENGTH_SHORT).show()
+        progressBar.visibility = View.GONE
+    }
+
     private fun openNextActivity(viewState: ViewState<List<Species>, ViewModelStatusEnum>?) {
+        progressBar.visibility = View.GONE
         viewState?.data?.let { list -> adapter.list.addAll(list) }
         adapter.notifyDataSetChanged()
     }

@@ -12,11 +12,11 @@ class ViewSpecieHolder(
     fun bindView(item: Species) {
         view.setOnClickListener { onClick(item) }
         view.nameInsert.text = item.name
-        view.segundoText.text = "classification:"
+        view.segundoText.text = "classification: "
         view.segundoInsert.text = item.classification
-        view.terceiroText.text = "language:"
+        view.terceiroText.text = "language: "
         view.terceiroInsert.text = item.language
-        view.quartoText.text = "average lifespan:"
+        view.quartoText.text = "average lifespan: "
         view.quartoInsert.text = item.averageLifespan
     }
 }
