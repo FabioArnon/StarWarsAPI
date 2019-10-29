@@ -49,8 +49,8 @@ class DetailSpecieFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val specie = args.Specie
-        viewModel.nextFilm(specie)
-        viewModel.nextResident(specie)
+        viewModel.getFilmsId(specie.films)
+        viewModel.getPeopleId(specie.people)
         setObserves()
     }
 

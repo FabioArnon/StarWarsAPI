@@ -2,6 +2,12 @@ package com.example.starwarsapi.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.starwarsapi.application.interactor
+import com.example.starwarsapi.application.postError
+import com.example.starwarsapi.application.postStatus
+import com.example.starwarsapi.application.postSuccess
+import com.example.starwarsapi.domain.DetailFilmInteractor
+import com.example.starwarsapi.domain.ShowFilmInteractor
 import com.example.starwarsapi.models.Films
 import com.example.starwarsapi.models.People
 import com.example.starwarsapi.models.Starships
@@ -12,10 +18,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class DetailFilmViewModel(
-    private val repository: ShowStarshipRepository,
-    private val repository2: ShowPeopleRepository,
-    private val dispatcherProvider: DispatcherProvider
+    dispatcherProvider: DispatcherProvider
 ) : BaseViewModel(dispatcherProvider) {
+    private val interactor: DetailFilmInteractor by interactor()
 
     private val starshipLiveData = MutableLiveData<ViewState<List<Starships>, ViewModelStatusEnum>>()
     private val peopleLiveData = MutableLiveData<ViewState<List<People>, ViewModelStatusEnum>>()
@@ -25,72 +30,50 @@ class DetailFilmViewModel(
 
     fun getList(): LiveData<ViewState<List<People>, ViewModelStatusEnum>> = peopleLiveData
 
-    fun getStarshipId(id: List<String>) {
-        starshipLiveData.postValue(ViewState(status = ViewModelStatusEnum.LOADING))
-        scope.launch(dispatcherProvider.io) {
-            val response = repository.getStarshipsId(id)
-            withContext(dispatcherProvider.ui) {
-                when (response) {
-                    is Result.Success -> {
-                        starshipLiveData.postValue(
-                            ViewState(
-                                response.data,
-                                ViewModelStatusEnum.SUCCESS
-                            )
-                        )
-                    }
-                    is Result.Failure -> {
-                        error = true
-                        starshipLiveData.postValue(
-                            ViewState(
-                                null,
-                                ViewModelStatusEnum.ERROR,
-                                error = response.throwable
-                            )
-                        )
-                    }
-                }
+    fun getPeopleId(id: List<String>) {
+        interactor.getPeopleId(id) {
+            when (it) {
+                is Result.Success -> onSuccessGetListPeopleId(it.data)
+                is Result.Failure -> onErrorGetListPeopleId(it.throwable)
             }
         }
     }
 
-    fun nextStarship(film: Films) {
-        getStarshipId(film.starships.map {
-            it.replace("https://swapi.co/api/starships/", "")
-        })
+    private fun onErrorGetListPeopleId(throwable: Throwable) {
+        error = true
+        peopleLiveData.postError(throwable)
     }
 
-    fun nextPeople(film: Films) {
-        getPeopleId(film.people.map {
-            it.replace("https://swapi.co/api/people/", "")
-        })
+    private fun onSuccessGetListPeopleId(data: List<People>) {
+        data.let {
+            if (!data.isNullOrEmpty()) {
+                peopleLiveData.postSuccess(data)
+            } else {
+                peopleLiveData.postStatus(ViewModelStatusEnum.ERROR_LIST_EMPTY)
+            }
+        }
     }
 
-    fun getPeopleId(id: List<String>) {
-        peopleLiveData.postValue(ViewState(status = ViewModelStatusEnum.LOADING))
-        scope.launch(dispatcherProvider.io) {
-            val response = repository2.getPeopleId(id)
-            withContext(dispatcherProvider.ui) {
-                when (response) {
-                    is Result.Success -> {
-                        peopleLiveData.postValue(
-                            ViewState(
-                                response.data,
-                                ViewModelStatusEnum.SUCCESS
-                            )
-                        )
-                    }
-                    is Result.Failure -> {
-                        error = true
-                        peopleLiveData.postValue(
-                            ViewState(
-                                null,
-                                ViewModelStatusEnum.ERROR,
-                                error = response.throwable
-                            )
-                        )
-                    }
-                }
+    fun getStarshipsId(id: List<String>) {
+        interactor.getStarshipId(id) {
+            when (it) {
+                is Result.Success -> onSuccessGetListStarshipId(it.data)
+                is Result.Failure -> onErrorGetListStarshipId(it.throwable)
+            }
+        }
+    }
+
+    private fun onErrorGetListStarshipId(throwable: Throwable) {
+        error = true
+        starshipLiveData.postError(throwable)
+    }
+
+    private fun onSuccessGetListStarshipId(data: List<Starships>) {
+        data?.let {
+            if (!data.isNullOrEmpty()) {
+                starshipLiveData.postSuccess(data)
+            } else {
+                starshipLiveData.postStatus(ViewModelStatusEnum.ERROR_LIST_EMPTY)
             }
         }
     }

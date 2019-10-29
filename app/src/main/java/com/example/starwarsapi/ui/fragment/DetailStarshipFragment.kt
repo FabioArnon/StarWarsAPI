@@ -49,8 +49,8 @@ class DetailStarshipFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val starship = args.Starship
-        viewModel.nextFilm(starship)
-        viewModel.nextPilot(starship)
+        viewModel.getFilmsId(starship.films)
+        viewModel.getPeopleId(starship.pilots)
         setObserves()
 
     }

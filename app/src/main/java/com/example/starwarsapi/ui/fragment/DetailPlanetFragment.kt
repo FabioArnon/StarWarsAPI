@@ -50,8 +50,8 @@ class DetailPlanetFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val planet = args.Planet
-        viewModel.nextFilm(planet)
-        viewModel.nextResident(planet)
+        viewModel.getFilmsId(planet.films)
+        viewModel.getPeopleId(planet.residents)
         setObserves()
     }
 

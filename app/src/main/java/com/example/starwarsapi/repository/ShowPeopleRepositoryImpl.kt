@@ -17,17 +17,9 @@ class ShowPeopleRepositoryImpl(
         client.getpeople(currentPage, search)
     }
 
-    override suspend fun getPeopleId(id: List<String>): Result<List<People>> {
-        val list = mutableListOf<People>()
-        id.map {
-            when (val response = safeAppCall { client.getpeopleId(it) }) {
-                is Result.Success -> list.add(response.data)
-                is Result.Failure -> {
-                }
-            }
+    override suspend fun getPeopleId(id: String): Result<People> =
+        safeAppCall {
+            client.getpeopleId(id)
         }
-        return if (list.size == id.size) {
-            Result.Success(list)
-        } else Result.Failure(Throwable("Erro"))
-    }
+
 }

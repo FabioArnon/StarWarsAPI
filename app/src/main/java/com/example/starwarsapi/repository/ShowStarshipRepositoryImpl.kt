@@ -15,17 +15,8 @@ class ShowStarshipRepositoryImpl(private val client: RetrofitInterface) : ShowSt
             client.getstarships(currentPage, search)
         }
 
-    override suspend fun getStarshipsId(id: List<String>): Result<List<Starships>> {
-        val list = mutableListOf<Starships>()
-        id.map {
-            when (val response = safeAppCall { client.getStarshipsId(it) }) {
-                is Result.Success -> list.add(response.data)
-                is Result.Failure -> {
-                }
-            }
+    override suspend fun getStarshipsId(id: String): Result<Starships> =
+        safeAppCall{
+            client.getStarshipsId(id)
         }
-        return if (list.size == id.size) {
-            Result.Success(list)
-        } else Result.Failure(Throwable("Erro"))
-    }
 }

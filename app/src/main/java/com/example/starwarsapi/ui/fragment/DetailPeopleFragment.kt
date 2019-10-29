@@ -27,22 +27,26 @@ class DetailPeopleFragment : BaseFragment() {
     private val adapter =
         ListFilmAdapter(mutableListOf()) {
             val film = it
-            val action = DetailPeopleFragmentDirections.actionDetailPeopleFragmentToDetailFilmFragment(film)
+            val action =
+                DetailPeopleFragmentDirections.actionDetailPeopleFragmentToDetailFilmFragment(film)
             view?.findNavController()?.navigate(action)
         }
 
     private val adapter2 =
         ListStarshipAdapter(mutableListOf()) {
             val starship = it
-            val action = DetailPeopleFragmentDirections.actionDetailPeopleFragmentToDetailStarshipFragment(starship)
+            val action =
+                DetailPeopleFragmentDirections.actionDetailPeopleFragmentToDetailStarshipFragment(
+                    starship
+                )
             view?.findNavController()?.navigate(action)
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val people = args.People
-        viewModel.nextFilm(people)
-        viewModel.nextStarship(people)
+        viewModel.getFilmsId(people.films)
+        viewModel.getStarshipsId(people.starships)
         setObserves()
     }
 
@@ -72,7 +76,6 @@ class DetailPeopleFragment : BaseFragment() {
                 ViewModelStatusEnum.ERROR -> onError(viewState.error)
                 ViewModelStatusEnum.ERROR_LIST_EMPTY ->
                     Toast.makeText(context, "Erro desconhecido", Toast.LENGTH_SHORT).show()
-
             }
         })
 
@@ -100,7 +103,6 @@ class DetailPeopleFragment : BaseFragment() {
 
     private fun onError(error: Throwable?) {
         Toast.makeText(context, error?.message ?: "Erro desconhecido", Toast.LENGTH_SHORT).show()
-
     }
 
 }

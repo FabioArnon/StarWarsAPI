@@ -13,17 +13,8 @@ class ShowFilmRepositoryImpl(private val client: RetrofitInterface) : ShowFilmRe
             client.getFilms(currentPage, search)
         }
 
-    override suspend fun getFilmsId(id: List<String>): Result<List<Films>> {
-        val list = mutableListOf<Films>()
-        id.map {
-            when (val response = safeAppCall { client.getFilmsId(it) }) {
-                is Result.Success -> list.add(response.data)
-                is Result.Failure -> {
-                }
-            }
+    override suspend fun getFilmsId(id: String): Result<Films> =
+        safeAppCall {
+            client.getFilmsId(id)
         }
-        return if (list.size == id.size) {
-            Result.Success(list)
-        } else Result.Failure(Throwable("Erro"))
-    }
 }

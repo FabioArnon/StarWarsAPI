@@ -29,4 +29,17 @@ val domainModule = module {
         ShowVehicleInteractorImpl(get(), get(), scope) as ShowVehicleInteractor
     }
 
+    factory { (scope: CoroutineScope) ->
+        DetailFilmInteractorImpl(get(), get(), get(), get(), scope) as DetailFilmInteractor
+    }
+    factory { (scope: CoroutineScope) ->
+        DetailPeopleInteractorImpl(get(), get(), get(), scope) as DetailPeopleInteractor
+    }
+    factory { (scope: CoroutineScope) ->
+        DetailPlanetInteractorImpl(get(), get(), get(), scope) as DetailPlanetInteractor
+    }
+    factory { (scope: CoroutineScope) ->
+        DetailSpecieInteractorImpl(get(), get(), get(), scope) as DetailSpecieInteractor
+    }
+
 }

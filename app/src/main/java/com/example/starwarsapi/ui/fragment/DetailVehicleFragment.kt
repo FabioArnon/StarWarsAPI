@@ -53,8 +53,8 @@ class DetailVehicleFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val vehicle = args.Vehicle
-        viewModel.nextFilm(vehicle)
-        viewModel.nextPilot(vehicle)
+        viewModel.getFilmsId(vehicle.films)
+        viewModel.getPeopleId(vehicle.pilots)
         setObserves()
     }
 

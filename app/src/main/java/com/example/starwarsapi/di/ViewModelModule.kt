@@ -16,10 +16,10 @@ val viewModelModule = module{
     factory { ShowVehicleViewModel(get()) }
     factory { ShowSpecieViewModel(get()) }
     factory { ShowFilmViewModel(get()) }
-    factory { DetailPeopleViewModel(get(), get(),get()) }
-    factory { DetailStarshipViewModel(get(), get(),get()) }
-    factory { DetailVehicleViewModel(get(), get(),get()) }
-    factory { DetailPlanetViewModel(get(), get(),get()) }
-    factory { DetailSpecieViewModel(get(), get(),get()) }
-    factory { DetailFilmViewModel(get(), get(),get()) }
+    factory { DetailPeopleViewModel(get()) }
+    factory { DetailStarshipViewModel(get()) }
+    factory { DetailVehicleViewModel(get()) }
+    factory { DetailPlanetViewModel(get()) }
+    factory { DetailSpecieViewModel(get()) }
+    factory { DetailFilmViewModel(get()) }
 }
