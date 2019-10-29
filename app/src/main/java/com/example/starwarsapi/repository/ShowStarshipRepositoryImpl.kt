@@ -7,12 +7,10 @@ import com.example.starwarsapi.service.Result
 import com.example.starwarsapi.service.RetrofitInterface
 
 class ShowStarshipRepositoryImpl(private val client: RetrofitInterface) : ShowStarshipRepository {
-    override suspend fun getListStarships(currentPage: Int): Result<StarshipResponse?> =
-        safeAppCall {
-            client.getstarships(currentPage, "")
-        }
-
-    override suspend fun searchListStarships(currentPage: Int, search: String): Result<StarshipResponse?> =
+    override suspend fun getListStarships(
+        currentPage: Int,
+        search: String
+    ): Result<StarshipResponse?> =
         safeAppCall {
             client.getstarships(currentPage, search)
         }
@@ -20,14 +18,14 @@ class ShowStarshipRepositoryImpl(private val client: RetrofitInterface) : ShowSt
     override suspend fun getStarshipsId(id: List<String>): Result<List<Starships>> {
         val list = mutableListOf<Starships>()
         id.map {
-            when (val response = safeAppCall {client.getStarshipsId(it)}){
+            when (val response = safeAppCall { client.getStarshipsId(it) }) {
                 is Result.Success -> list.add(response.data)
-                is Result.Failure -> {}
+                is Result.Failure -> {
+                }
+            }
         }
+        return if (list.size == id.size) {
+            Result.Success(list)
+        } else Result.Failure(Throwable("Erro"))
     }
-    return if (list.size == id.size)
-    {
-        Result.Success(list)
-    } else Result.Failure(Throwable("Erro"))
-}
 }

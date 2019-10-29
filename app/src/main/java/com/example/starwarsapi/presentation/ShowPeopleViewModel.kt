@@ -2,119 +2,59 @@ package com.example.starwarsapi.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.starwarsapi.application.pages
+import com.example.starwarsapi.application.*
+import com.example.starwarsapi.domain.ShowPeopleInteractor
 import com.example.starwarsapi.models.People
-import com.example.starwarsapi.presentation.ViewModelStatusEnum.*
-import com.example.starwarsapi.repository.ShowPeopleRepository
+import com.example.starwarsapi.models.PeopleResponse
 import com.example.starwarsapi.service.Result
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class ShowPeopleViewModel(
-    private val repository: ShowPeopleRepository,
-    private val dispatcherProvider: DispatcherProvider
+    dispatcherProvider: DispatcherProvider
 ) : BaseViewModel(dispatcherProvider) {
+    private val interactor: ShowPeopleInteractor by interactor()
+
     private val peopleLiveData = MutableLiveData<ViewState<List<People>, ViewModelStatusEnum>>()
     fun getList(): LiveData<ViewState<List<People>, ViewModelStatusEnum>> = peopleLiveData
 
-    fun getListPeople() {
-        peopleLiveData.postValue(ViewState(status = LOADING))
-        scope.launch(dispatcherProvider.io) {
-            val response = repository.getListPeople(currentPage)
-            withContext(dispatcherProvider.ui) {
-                when (response) {
-                    is Result.Success -> {
-                        if (!response.data?.peoples.isNullOrEmpty()) {
-                            maxPage = pages(response.data?.count!!)
-                            peopleLiveData.postValue(
-                                ViewState(
-                                    response.data.peoples,
-                                    SUCCESS
-                                )
-                            )
-                        } else {
-                            noMoreResults = true
-                            peopleLiveData.postValue(
-                                ViewState(
-                                    response.data?.peoples,
-                                    ERROR_LIST_EMPTY
-                                )
-                            )
-                        }
-                    }
-                    is Result.Failure -> {
-                        error = true
-                        peopleLiveData.postValue(
-                            ViewState(
-                                null,
-                                ERROR,
-                                error = response.throwable
-                            )
-                        )
-                    }
-                }
+    fun getListPeople(query: String = search, isNext: Boolean = false) {
+        checkSearch(isNext)
+        search = query
+        peopleLiveData.postLoading()
+        interactor.getListPeople(currentPage, search) {
+            when (it) {
+                is Result.Success -> onSuccessGetListPeople(it.data)
+                is Result.Failure -> onErrorGetListPeople(it.throwable)
             }
         }
     }
 
-    fun searchListPeople() {
-        peopleLiveData.postValue(ViewState(status = LOADING))
-        scope.launch(dispatcherProvider.io) {
-            val response = repository.getSearchPeople(currentPage, search)
-            withContext(dispatcherProvider.ui) {
-                when (response) {
-                    is Result.Success -> {
-                        if (!response.data?.peoples.isNullOrEmpty()) {
-                            maxPage = pages(response.data?.count!!)
-                            peopleLiveData.postValue(
-                                ViewState(
-                                    response.data.peoples,
-                                    SUCCESS
-                                )
-                            )
-                        } else {
-                            noMoreResults = true
-                            peopleLiveData.postValue(
-                                ViewState(
-                                    response.data?.peoples,
-                                    ERROR_LIST_EMPTY
-                                )
-                            )
-                        }
-                    }
-                    is Result.Failure -> {
-                        error = true
-                        peopleLiveData.postValue(
-                            ViewState(
-                                null,
-                                ERROR,
-                                error = response.throwable
-                            )
-                        )
-                    }
-                }
-            }
-        }
-    }
-
-    fun searchController(aux: String) {
-        if (search != aux) {
+    private fun checkSearch(isNext: Boolean) {
+        if (!isNext) {
             currentPage = 1
         }
-        if (aux != "") {
-            search = aux
-            searchListPeople()
-        } else {
-            search = ""
-            getListPeople()
+    }
+
+    private fun onErrorGetListPeople(throwable: Throwable) {
+        error = true
+        peopleLiveData.postError(throwable)
+    }
+
+    private fun onSuccessGetListPeople(data: PeopleResponse?) {
+        data?.let {
+            if (!data.peoples.isNullOrEmpty()) {
+                maxPage = pages(data.count)
+                peopleLiveData.postSuccess(data.peoples)
+            } else {
+                noMoreResults = true
+                peopleLiveData.postStatus(ViewModelStatusEnum.ERROR_LIST_EMPTY)
+            }
         }
     }
 
     override fun nextPage() {
         super.nextPage()
         if (maxPage >= currentPage) {
-            if (search == "") getListPeople()
-            else searchListPeople()
+            getListPeople(search, true)
         }
     }
 }

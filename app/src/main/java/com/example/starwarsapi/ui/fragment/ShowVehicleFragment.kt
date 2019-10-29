@@ -19,8 +19,6 @@ import com.example.starwarsapi.ui.adapter.ListVehicleAdapter
 import kotlinx.android.synthetic.main.fragment_show_people.rvSearchActivityList
 import kotlinx.android.synthetic.main.fragment_show_vehicle.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.*
-import kotlin.concurrent.schedule
 
 class ShowVehicleFragment : BaseFragment() {
     private val viewModel: ShowVehicleViewModel by viewModel()
@@ -46,7 +44,7 @@ class ShowVehicleFragment : BaseFragment() {
         svVehicle.onSearchDelayedOrCanceledListener {
             it?.let { it1 ->
                 adapter.list.clear()
-                viewModel.searchController(it1)
+                viewModel.getListVehicle(it1)
             }
 
             if (it == "") {

@@ -44,7 +44,7 @@ class ShowSpecieFragment : BaseFragment() {
         svSpecie.onSearchDelayedOrCanceledListener {
             it?.let { it1 ->
                 adapter.list.clear()
-                viewModel.searchController(it1)
+                viewModel.getListSpecies(it1)
             }
 
             if (it == "") {

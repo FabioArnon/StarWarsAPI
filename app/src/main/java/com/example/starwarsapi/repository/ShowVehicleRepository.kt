@@ -5,6 +5,5 @@ import com.example.starwarsapi.service.Result
 
 
 interface ShowVehicleRepository {
-    suspend fun getListVehicles(currentPage: Int): Result<VehicleResponse?>
-    suspend fun searchListVehicles(currentPage: Int, search: String): Result<VehicleResponse?>
+    suspend fun getListVehicles(currentPage: Int, search: String): Result<VehicleResponse?>
 }

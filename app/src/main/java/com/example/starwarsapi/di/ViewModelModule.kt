@@ -10,12 +10,12 @@ val viewModelModule = module{
     factory { DispatcherProvider() }
     factory { MainViewModel(get()) }
     factory { BaseFragment() }
-    factory { ShowPeopleViewModel(get(),get()) }
-    factory { ShowPlanetViewModel(get(), get()) }
-    factory { ShowStarshipViewModel(get(), get()) }
-    factory { ShowVehicleViewModel(get(), get()) }
-    factory { ShowSpecieViewModel(get(), get()) }
-    factory { ShowFilmViewModel(get(), get()) }
+    factory { ShowPeopleViewModel(get()) }
+    factory { ShowPlanetViewModel(get()) }
+    factory { ShowStarshipViewModel(get()) }
+    factory { ShowVehicleViewModel(get()) }
+    factory { ShowSpecieViewModel(get()) }
+    factory { ShowFilmViewModel(get()) }
     factory { DetailPeopleViewModel(get(), get(),get()) }
     factory { DetailStarshipViewModel(get(), get(),get()) }
     factory { DetailVehicleViewModel(get(), get(),get()) }

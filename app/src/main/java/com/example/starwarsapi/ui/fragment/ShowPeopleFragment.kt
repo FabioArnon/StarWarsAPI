@@ -45,7 +45,7 @@ class ShowPeopleFragment : BaseFragment() {
         svPeople.onSearchDelayedOrCanceledListener {
             it?.let { it1 ->
                 adapter.list.clear()
-                viewModel.searchController(it1)
+                viewModel.getListPeople(it1)
             }
 
             if (it == "") {

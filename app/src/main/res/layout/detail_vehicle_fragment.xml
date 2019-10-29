@@ -111,7 +111,7 @@
             android:layout_marginTop="5dp"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_adapter_list"></androidx.recyclerview.widget.RecyclerView>
+            tools:listitem="@layout/item_adapter_list" />
 
         <TextView
             android:id="@+id/tvStarshipText"
@@ -132,7 +132,7 @@
             android:layout_marginTop="5dp"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_adapter_list"></androidx.recyclerview.widget.RecyclerView>
+            tools:listitem="@layout/item_adapter_list" />
 
 
         <ProgressBar

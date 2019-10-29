@@ -1,20 +1,9 @@
 <resources>
     <string name="app_name">Star Wars API</string>
-    <string name="title">Star Wars API</string>
-    <string name="planets">Planets</string>
-    <string name="people">People</string>
-    <string name="species">Species</string>
-    <string name="vehicles">Vehicles</string>
-    <string name="films">Films</string>
-    <string name="starships">Starships</string>
     <string name="nome">name: </string>
     <string name="gender">gender: </string>
     <string name="height">height: </string>
     <string name="mass">mass: </string>
-    <string name="diameter">diameter: </string>
-    <string name="gravity">gravity: </string>
-    <string name="population">population: </string>
-    <string name="planetsTitle">PLANETS</string>
     <string name="open_drawer">Abrir</string>
     <string name="close_drawer">Fechar</string>
 

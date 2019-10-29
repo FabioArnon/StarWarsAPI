@@ -5,6 +5,5 @@ import com.example.starwarsapi.service.Result
 
 
 interface ShowSpecieRepository {
-    suspend fun getListSpecies(currentPage: Int): Result<SpecieResponse?>
-    suspend fun searchListSpecies(currentPage: Int, search: String): Result<SpecieResponse?>
+    suspend fun getListSpecies(currentPage: Int, search: String): Result<SpecieResponse?>
 }

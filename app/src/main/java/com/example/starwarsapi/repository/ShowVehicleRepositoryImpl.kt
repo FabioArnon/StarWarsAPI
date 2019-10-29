@@ -6,11 +6,8 @@ import com.example.starwarsapi.service.Result
 import com.example.starwarsapi.service.RetrofitInterface
 
 class ShowVehicleRepositoryImpl(private val client: RetrofitInterface): ShowVehicleRepository{
-    override suspend fun getListVehicles(currentPage: Int): Result<VehicleResponse?> = safeAppCall{
-        client.getvehicles(currentPage, "")
-    }
-
-    override suspend fun searchListVehicles(currentPage: Int, search: String): Result<VehicleResponse?> = safeAppCall{
+    override suspend fun getListVehicles(currentPage: Int, search: String): Result<VehicleResponse?> = safeAppCall{
         client.getvehicles(currentPage, search)
     }
+
 }

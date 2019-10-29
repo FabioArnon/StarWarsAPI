@@ -2,112 +2,53 @@ package com.example.starwarsapi.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.starwarsapi.application.pages
+import com.example.starwarsapi.application.*
+import com.example.starwarsapi.domain.ShowSpecieInteractor
+import com.example.starwarsapi.models.SpecieResponse
 import com.example.starwarsapi.models.Species
 import com.example.starwarsapi.service.Result
-import com.example.starwarsapi.repository.ShowSpecieRepository
-import com.example.starwarsapi.presentation.ViewModelStatusEnum.*
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class ShowSpecieViewModel(
-    private val repository: ShowSpecieRepository,
-    private val dispatcherProvider: DispatcherProvider
+    dispatcherProvider: DispatcherProvider
 ) : BaseViewModel(dispatcherProvider) {
+    private val interactor: ShowSpecieInteractor by interactor()
+
     private val specieLiveData = MutableLiveData<ViewState<List<Species>, ViewModelStatusEnum>>()
     fun getList(): LiveData<ViewState<List<Species>, ViewModelStatusEnum>> = specieLiveData
 
-    fun getListSpecies() {
-        specieLiveData.postValue(ViewState(status = LOADING))
-        scope.launch(dispatcherProvider.io) {
-            val response = repository.getListSpecies(currentPage)
-            withContext(dispatcherProvider.ui) {
-                when (response) {
-                    is Result.Success -> {
-                        if (!response.data?.species.isNullOrEmpty()) {
-                            maxPage = pages(response.data?.count!!)
-                            specieLiveData.postValue(
-                                ViewState(
-                                    response.data.species,
-                                    SUCCESS
-                                )
-                            )
-                        } else {
-                            noMoreResults = true
-                            specieLiveData.postValue(
-                                ViewState(
-                                    response.data?.species,
-                                    ERROR_LIST_EMPTY
-                                )
-                            )
-                        }
-                    }
-                    is Result.Failure -> {
-                        error = true
-                        specieLiveData.postValue(
-                            ViewState(
-                                null,
-                                ERROR,
-                                error = response.throwable
-                            )
-                        )
-                    }
-                }
+    fun getListSpecies(query: String = search, isNext: Boolean = false) {
+        checkSearch(isNext)
+        search = query
+        specieLiveData.postLoading()
+        interactor.getListSpecie(currentPage, search){
+            when(it){
+                is Result.Success -> onSuccessGetListSpecie(it.data)
+                is Result.Failure -> onErrorGetListSpecie(it.throwable)
             }
         }
     }
 
-    fun searchListSpecies() {
-        specieLiveData.postValue(ViewState(status = LOADING))
-        scope.launch(dispatcherProvider.io) {
-            val response = repository.searchListSpecies(currentPage, search)
-            withContext(dispatcherProvider.ui) {
-                when (response) {
-                    is Result.Success -> {
-                        if (!response.data?.species.isNullOrEmpty()) {
-                            maxPage = pages(response.data?.count!!)
-                            specieLiveData.postValue(
-                                ViewState(
-                                    response.data.species,
-                                    SUCCESS
-                                )
-                            )
-                        } else {
-                            noMoreResults = true
-                            specieLiveData.postValue(
-                                ViewState(
-                                    response.data?.species,
-                                    ERROR_LIST_EMPTY
-                                )
-                            )
-                        }
-                    }
-                    is Result.Failure -> {
-                        error = true
-                        specieLiveData.postValue(
-                            ViewState(
-                                null,
-                                ERROR,
-                                error = response.throwable
-                            )
-                        )
-                    }
-                }
-            }
-        }
-    }
-
-    fun searchController(aux: String) {
-        if (search != aux) {
+    private fun checkSearch(isNext: Boolean) {
+        if(!isNext){
             currentPage = 1
         }
-        if (aux != "") {
-            search = aux
-            searchListSpecies()
-        } else {
-            search = ""
-            getListSpecies()
+    }
+
+    private fun onErrorGetListSpecie(throwable: Throwable) {
+        error = true
+        specieLiveData.postError(throwable)
+    }
+
+    private fun onSuccessGetListSpecie(data: SpecieResponse?) {
+        data?.let{
+            if(!data.species.isNullOrEmpty()){
+                maxPage = pages(data.count)
+                specieLiveData.postSuccess(data.species)
+            } else {
+                noMoreResults = true
+                specieLiveData.postStatus(ViewModelStatusEnum.ERROR_LIST_EMPTY)
+            }
         }
     }
 
@@ -115,9 +56,7 @@ class ShowSpecieViewModel(
     override fun nextPage() {
         super.nextPage()
         if(maxPage >= currentPage) {
-            if (search == "") getListSpecies()
-            else searchListSpecies()
-
+           getListSpecies(search, true)
         }
     }
 }

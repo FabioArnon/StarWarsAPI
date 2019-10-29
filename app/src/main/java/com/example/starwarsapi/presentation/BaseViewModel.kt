@@ -5,14 +5,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import org.koin.core.KoinComponent
 
-open class BaseViewModel(dispatcherProvider: DispatcherProvider): ViewModel(), KoinComponent {
-    var currentPage:Int = 1
+open class BaseViewModel(dispatcherProvider: DispatcherProvider) : ViewModel(), KoinComponent {
+    var currentPage: Int = 1
     var search: String = ""
     var maxPage: Int = 1
-    open var noMoreResults:Boolean = false
-    open var error:Boolean = false
+    open var noMoreResults: Boolean = false
+    open var error: Boolean = false
     private val viewModelJob = SupervisorJob()
-    protected val scope = CoroutineScope(dispatcherProvider.io + viewModelJob)
+    val scope = CoroutineScope(dispatcherProvider.io + viewModelJob)
 
 
     override fun onCleared() {
@@ -20,8 +20,8 @@ open class BaseViewModel(dispatcherProvider: DispatcherProvider): ViewModel(), K
         viewModelJob.cancel()
     }
 
-    open fun nextPage(){
-        if(error||noMoreResults||maxPage < currentPage) return
+    open fun nextPage() {
+        if (error || noMoreResults || maxPage < currentPage) return
         currentPage++
     }
 }

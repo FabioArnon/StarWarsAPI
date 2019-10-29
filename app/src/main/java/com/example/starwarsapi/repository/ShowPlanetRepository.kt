@@ -4,6 +4,5 @@ import com.example.starwarsapi.models.*
 import com.example.starwarsapi.service.Result
 
 interface ShowPlanetRepository {
-    suspend fun getListPlanet(currentPage: Int): Result<PlanetResponse?>
-    suspend fun searchListPlanet(currentPage: Int, search: String): Result<PlanetResponse?>
+    suspend fun getListPlanet(currentPage: Int, search: String): Result<PlanetResponse?>
 }

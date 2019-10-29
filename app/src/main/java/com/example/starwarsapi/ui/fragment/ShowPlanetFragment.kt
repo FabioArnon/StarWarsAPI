@@ -16,7 +16,6 @@ import com.example.starwarsapi.presentation.ViewModelStatusEnum
 import com.example.starwarsapi.presentation.ViewModelStatusEnum.*
 import com.example.starwarsapi.presentation.ViewState
 import com.example.starwarsapi.ui.adapter.ListPlanetAdapter
-import kotlinx.android.synthetic.main.fragment_show_people.rvSearchActivityList
 import kotlinx.android.synthetic.main.fragment_show_planet.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -25,7 +24,8 @@ class ShowPlanetFragment : BaseFragment() {
     private val adapter =
         ListPlanetAdapter(mutableListOf()) {
             val planet = it
-            val action = ShowPlanetFragmentDirections.actionShowPlanetFragmentToDetailPlanetFragment(planet)
+            val action =
+                ShowPlanetFragmentDirections.actionShowPlanetFragmentToDetailPlanetFragment(planet)
             view?.findNavController()?.navigate(action)
         }
 
@@ -39,12 +39,12 @@ class ShowPlanetFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecycleView()
         svPlanet.onSearchDelayedOrCanceledListener {
-            it?.let{it1 ->
+            it?.let { it1 ->
                 adapter.list.clear()
-                viewModel.searchController(it1)
+                viewModel.getListPlanet(it1)
             }
 
-            if(it == ""){
+            if (it == "") {
                 adapter.list.clear()
             }
         }

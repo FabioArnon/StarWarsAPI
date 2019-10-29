@@ -2,118 +2,60 @@ package com.example.starwarsapi.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.starwarsapi.application.pages
+import com.example.starwarsapi.application.*
+import com.example.starwarsapi.domain.ShowStarshipInteractor
+import com.example.starwarsapi.models.StarshipResponse
 import com.example.starwarsapi.models.Starships
-import com.example.starwarsapi.presentation.ViewModelStatusEnum.*
 import com.example.starwarsapi.service.Result
-import com.example.starwarsapi.repository.ShowStarshipRepository
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class ShowStarshipViewModel(
-    private val repository: ShowStarshipRepository,
-    private val dispatcherProvider: DispatcherProvider
+    dispatcherProvider: DispatcherProvider
 ): BaseViewModel(dispatcherProvider) {
+    private val interactor: ShowStarshipInteractor by interactor()
+
     private val starshipLiveData = MutableLiveData<ViewState<List<Starships>, ViewModelStatusEnum>>()
     fun getList(): LiveData<ViewState<List<Starships>, ViewModelStatusEnum>> = starshipLiveData
 
-    fun getListStarship(){
-        starshipLiveData.postValue(ViewState(status = LOADING))
-        scope.launch(dispatcherProvider.io){
-            val response = repository.getListStarships(currentPage)
-            withContext(dispatcherProvider.ui){
-                when(response){
-                    is Result.Success -> {
-                        if(!response.data?.starships.isNullOrEmpty()){
-                            maxPage = pages(response.data?.count!!)
-                            starshipLiveData.postValue(
-                                ViewState(
-                                    response.data.starships,
-                                    SUCCESS
-                                )
-                            )
-                        } else{
-                            noMoreResults = true
-                            starshipLiveData.postValue(
-                                ViewState(
-                                    response.data?.starships,
-                                    ERROR_LIST_EMPTY
-                                )
-                            )
-                        }
-                    }
-                    is Result.Failure->{
-                        error = true
-                        starshipLiveData.postValue(
-                            ViewState(
-                                null,
-                                ERROR,
-                                error = response.throwable
-                            )
-                        )
-                    }
-                }
-            }
-        }
-    }
-    fun searchListStarship(){
-        starshipLiveData.postValue(ViewState(status = LOADING))
-        scope.launch(dispatcherProvider.io){
-            val response = repository.searchListStarships(currentPage, search)
-            withContext(dispatcherProvider.ui){
-                when(response){
-                    is Result.Success -> {
-                        if(!response.data?.starships.isNullOrEmpty()){
-                            maxPage = pages(response.data?.count!!)
-                            starshipLiveData.postValue(
-                                ViewState(
-                                    response.data.starships,
-                                    SUCCESS
-                                )
-                            )
-                        } else{
-                            noMoreResults = true
-                            starshipLiveData.postValue(
-                                ViewState(
-                                    response.data?.starships,
-                                    ERROR_LIST_EMPTY
-                                )
-                            )
-                        }
-                    }
-                    is Result.Failure->{
-                        error = true
-                        starshipLiveData.postValue(
-                            ViewState(
-                                null,
-                                ERROR,
-                                error = response.throwable
-                            )
-                        )
-                    }
-                }
+    fun getListStarship(query: String = search, isNext: Boolean = false){
+        checkSearch(isNext)
+        search = query
+        starshipLiveData.postLoading()
+        interactor.getListStarship(currentPage, search){
+            when(it){
+                is Result.Success -> onSuccessGetListStarship(it.data)
+                is Result.Failure -> onErrorGetListStarship(it.throwable)
             }
         }
     }
 
-    fun searchController(aux: String) {
-        if (search != aux) {
+    private fun checkSearch(isNext: Boolean) {
+        if(!isNext){
             currentPage = 1
         }
-        if (aux != "") {
-            search = aux
-            searchListStarship()
-        } else {
-            search = ""
-            getListStarship()
+    }
+
+    private fun onErrorGetListStarship(throwable: Throwable) {
+        error = true
+        starshipLiveData.postError(throwable)
+    }
+
+    private fun onSuccessGetListStarship(data: StarshipResponse?) {
+        data?.let {
+            if(!data.starships.isNullOrEmpty()){
+                maxPage = pages(data.count)
+                starshipLiveData.postSuccess(data.starships)
+            } else {
+                noMoreResults = true
+                starshipLiveData.postStatus(ViewModelStatusEnum.ERROR_LIST_EMPTY)
+            }
         }
     }
+
 
     override fun nextPage() {
         super.nextPage()
         if (maxPage >= currentPage) {
-            if (search == "") getListStarship()
-            else searchListStarship()
+            getListStarship(search, true)
         }
 
     }

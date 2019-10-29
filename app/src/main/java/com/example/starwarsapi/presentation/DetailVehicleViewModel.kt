@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.starwarsapi.models.Films
 import com.example.starwarsapi.models.People
-import com.example.starwarsapi.models.Starships
 import com.example.starwarsapi.models.Vehicles
 import com.example.starwarsapi.repository.ShowFilmRepository
 import com.example.starwarsapi.repository.ShowPeopleRepository

@@ -5,7 +5,6 @@ import com.example.starwarsapi.service.Result
 
 
 interface ShowFilmRepository {
-    suspend fun getListFilm(currentPage: Int): Result<FilmResponse?>
-    suspend fun getSearchFilm(search: String): Result<FilmResponse?>
+    suspend fun getListFilm(currentPage: Int, search: String): Result<FilmResponse?>
     suspend fun getFilmsId(id: List<String>): Result<List<Films>>
 }

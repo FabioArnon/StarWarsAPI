@@ -44,7 +44,7 @@ class ShowStarshipFragment : BaseFragment() {
         svStarship.onSearchDelayedOrCanceledListener {
             it?.let { it1 ->
                 adapter.list.clear()
-                viewModel.searchController(it1)
+                viewModel.getListStarship(it1)
             }
 
             if (it == "") {
