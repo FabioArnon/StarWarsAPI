@@ -1,5 +1,6 @@
 package com.example.starwarsapi.service
 
+import com.example.starwarsapi.application.xt.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -10,7 +11,7 @@ class Networking {
     companion object{
         private lateinit var service: RetrofitInterface
         private val retrofit = Retrofit.Builder()
-            .baseUrl("https://swapi.co/api/")
+            .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(getOkHttp().build())
             .build()

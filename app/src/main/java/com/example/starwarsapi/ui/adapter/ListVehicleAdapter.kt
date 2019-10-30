@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.starwarsapi.R
-import com.example.starwarsapi.models.Vehicles
+import com.example.starwarsapi.models.vehicle.Vehicles
 import com.example.starwarsapi.ui.holder.ViewVehicleHolder
 
 class ListVehicleAdapter(

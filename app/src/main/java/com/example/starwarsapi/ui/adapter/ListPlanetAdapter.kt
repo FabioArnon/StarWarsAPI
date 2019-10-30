@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.starwarsapi.R
-import com.example.starwarsapi.models.Planets
+import com.example.starwarsapi.models.planet.Planets
 import com.example.starwarsapi.ui.holder.ViewPlanetHolder
 
 class ListPlanetAdapter(

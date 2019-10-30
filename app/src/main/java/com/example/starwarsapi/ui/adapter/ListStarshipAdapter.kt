@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.starwarsapi.R
-import com.example.starwarsapi.models.Starships
+import com.example.starwarsapi.models.starship.Starships
 import com.example.starwarsapi.ui.holder.ViewStarshipHolder
 
 class ListStarshipAdapter(

@@ -2,7 +2,7 @@ package com.example.starwarsapi.ui.holder
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.example.starwarsapi.models.People
+import com.example.starwarsapi.models.people.People
 import kotlinx.android.synthetic.main.item_adapter_list.view.*
 
 class ViewPeopleHolder(

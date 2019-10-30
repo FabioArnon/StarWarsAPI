@@ -2,17 +2,21 @@ package com.example.starwarsapi.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.starwarsapi.application.interactor
-import com.example.starwarsapi.application.postError
-import com.example.starwarsapi.application.postStatus
-import com.example.starwarsapi.application.postSuccess
-import com.example.starwarsapi.domain.DetailPeopleInteractor
-import com.example.starwarsapi.models.Films
-import com.example.starwarsapi.models.Starships
+import com.example.starwarsapi.application.xt.interactor
+import com.example.starwarsapi.application.xt.postError
+import com.example.starwarsapi.application.xt.postStatus
+import com.example.starwarsapi.application.xt.postSuccess
+import com.example.starwarsapi.domain.people.DetailPeopleInteractor
+import com.example.starwarsapi.models.film.Films
+import com.example.starwarsapi.models.starship.Starships
+import com.example.starwarsapi.presentation.base.BaseViewModel
+import com.example.starwarsapi.presentation.base.DispatcherProvider
+import com.example.starwarsapi.presentation.base.ViewModelStatusEnum
+import com.example.starwarsapi.presentation.base.ViewState
 import com.example.starwarsapi.service.Result
 
 class DetailPeopleViewModel(
-    private val dispatcherProvider: DispatcherProvider
+    dispatcherProvider: DispatcherProvider
 ) : BaseViewModel(dispatcherProvider) {
     private val interactor: DetailPeopleInteractor by interactor()
 
@@ -39,7 +43,7 @@ class DetailPeopleViewModel(
     }
 
     private fun onSuccessGetListFilmId(data: List<Films>) {
-        data?.let {
+        data.let {
             if (!data.isNullOrEmpty()) {
                 filmLiveData.postSuccess(data)
             } else {
@@ -63,7 +67,7 @@ class DetailPeopleViewModel(
     }
 
     private fun onSuccessGetListStarshipId(data: List<Starships>) {
-        data?.let {
+        data.let {
             if (!data.isNullOrEmpty()) {
                 starshipLiveData.postSuccess(data)
             } else {

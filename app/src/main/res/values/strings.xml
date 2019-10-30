@@ -6,5 +6,19 @@
     <string name="mass">mass: </string>
     <string name="open_drawer">Abrir</string>
     <string name="close_drawer">Fechar</string>
+    <string name="title">title:</string>
+    <string name="episode_id">episode_id:</string>
+    <string name="release_date">release date:</string>
+    <string name="director">director:</string>
+    <string name="diameter">diameter:</string>
+    <string name="orbital_period">orbitalPeriod:</string>
+    <string name="population">population:</string>
+    <string name="classification">classification:</string>
+    <string name="language">language:</string>
+    <string name="average_lifespan">average lifespan:</string>
+    <string name="cost_in_credits">Cost in Credits:</string>
+    <string name="passengers">passengers:</string>
+    <string name="model">model:</string>
+    <string name="erro_desconhecido">Erro desconhecido</string>
 
 </resources>

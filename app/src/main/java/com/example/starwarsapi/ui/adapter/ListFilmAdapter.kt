@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.starwarsapi.R
-import com.example.starwarsapi.models.Films
+import com.example.starwarsapi.models.film.Films
 import com.example.starwarsapi.ui.holder.ViewFilmHolder
 
 class ListFilmAdapter(

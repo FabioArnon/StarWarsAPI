@@ -9,11 +9,12 @@ import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.starwarsapi.R
-import com.example.starwarsapi.models.Films
-import com.example.starwarsapi.models.People
+import com.example.starwarsapi.application.xt.ERRO_DESCONHECIDO
+import com.example.starwarsapi.models.film.Films
+import com.example.starwarsapi.models.people.People
 import com.example.starwarsapi.presentation.DetailStarshipViewModel
-import com.example.starwarsapi.presentation.ViewModelStatusEnum
-import com.example.starwarsapi.presentation.ViewState
+import com.example.starwarsapi.presentation.base.ViewModelStatusEnum
+import com.example.starwarsapi.presentation.base.ViewState
 import com.example.starwarsapi.ui.adapter.ListFilmAdapter
 import com.example.starwarsapi.ui.adapter.ListPeopleAdapter
 import kotlinx.android.synthetic.main.detail_starship_fragment.*
@@ -25,18 +26,18 @@ class DetailStarshipFragment : BaseFragment() {
     private val viewModel: DetailStarshipViewModel by viewModel()
     val args: DetailStarshipFragmentArgs by navArgs()
 
-    private val adapter =
+    private val adapterToFilmList =
         ListFilmAdapter(mutableListOf()) {
             val film = it
             val action = DetailStarshipFragmentDirections.actionDetailStarshipFragmentToDetailFilmFragment(film)
-            view?.findNavController()?.navigate(action)
+            requireView().findNavController().navigate(action)
         }
 
-    private val adapter2 =
+    private val adapterToPeopleList =
         ListPeopleAdapter(mutableListOf()) {
             val people = it
             val action = DetailStarshipFragmentDirections.actionDetailStarshipFragmentToDetailPeopleFragment(people)
-            view?.findNavController()?.navigate(action)
+            requireView().findNavController().navigate(action)
         }
 
     override fun onCreateView(
@@ -61,8 +62,8 @@ class DetailStarshipFragment : BaseFragment() {
         tvModelInsert.text = starship.model
         tvManufacturerInsert.text = starship.manufacturer
         tvClassInsert.text = starship.starshipClass
-        filmRv.adapter = adapter
-        pilotRv.adapter = adapter2
+        filmRv.adapter = adapterToFilmList
+        pilotRv.adapter = adapterToPeopleList
     }
 
     private fun setObserves() {
@@ -71,8 +72,9 @@ class DetailStarshipFragment : BaseFragment() {
                 ViewModelStatusEnum.SUCCESS -> setNewItemFilm(viewState)
                 ViewModelStatusEnum.ERROR -> onError(viewState.error)
                 ViewModelStatusEnum.ERROR_LIST_EMPTY ->
-                    Toast.makeText(context, "Erro desconhecido", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context,getString(R.string.erro_desconhecido), Toast.LENGTH_SHORT).show()
 
+                else -> Unit
             }
         })
         viewModel.getListPeople().observe(this, Observer { viewState ->
@@ -80,23 +82,24 @@ class DetailStarshipFragment : BaseFragment() {
                 ViewModelStatusEnum.SUCCESS -> setNewItemPilot(viewState)
                 ViewModelStatusEnum.ERROR -> onError(viewState.error)
                 ViewModelStatusEnum.ERROR_LIST_EMPTY ->
-                    Toast.makeText(context, "Erro desconhecido", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context,getString(R.string.erro_desconhecido), Toast.LENGTH_SHORT).show()
+                else -> Unit
             }
         })
     }
 
-    private fun setNewItemPilot(viewState: ViewState<List<People>, ViewModelStatusEnum>?) {
-        viewState?.data?.let { list -> adapter2.list.addAll(list)}
-        adapter2.notifyDataSetChanged()
+    private fun setNewItemPilot(viewState: ViewState<List<People>, ViewModelStatusEnum>) {
+        viewState.data?.let { list -> adapterToPeopleList.list.addAll(list)}
+        adapterToPeopleList.notifyDataSetChanged()
     }
 
-    private fun setNewItemFilm(viewState: ViewState<List<Films>, ViewModelStatusEnum>?) {
-        viewState?.data?.let { list -> adapter.list.addAll(list) }
-        adapter.notifyDataSetChanged()
+    private fun setNewItemFilm(viewState: ViewState<List<Films>, ViewModelStatusEnum>) {
+        viewState.data?.let { list -> adapterToFilmList.list.addAll(list) }
+        adapterToFilmList.notifyDataSetChanged()
     }
 
     private fun onError(error: Throwable?) {
-        Toast.makeText(context, error?.message ?: "Erro desconhecido", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, error?.message ?:getString(R.string.erro_desconhecido), Toast.LENGTH_SHORT).show()
 
     }
 

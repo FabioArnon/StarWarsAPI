@@ -2,10 +2,14 @@ package com.example.starwarsapi.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.starwarsapi.application.*
-import com.example.starwarsapi.domain.ShowVehicleInteractor
-import com.example.starwarsapi.models.VehicleResponse
-import com.example.starwarsapi.models.Vehicles
+import com.example.starwarsapi.application.xt.*
+import com.example.starwarsapi.domain.vehicle.ShowVehicleInteractor
+import com.example.starwarsapi.models.vehicle.VehicleResponse
+import com.example.starwarsapi.models.vehicle.Vehicles
+import com.example.starwarsapi.presentation.base.BaseViewModel
+import com.example.starwarsapi.presentation.base.DispatcherProvider
+import com.example.starwarsapi.presentation.base.ViewModelStatusEnum
+import com.example.starwarsapi.presentation.base.ViewState
 import com.example.starwarsapi.service.Result
 
 

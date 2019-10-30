@@ -10,17 +10,15 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.example.starwarsapi.R
-import com.example.starwarsapi.presentation.MainViewModel
+import com.example.starwarsapi.application.xt.MENU_DEFAULT
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
 
     lateinit var navController: NavController
-    private val viewModel: MainViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,7 +73,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.vehicle_item -> navController.navigate(R.id.showVehicleFragment)
             R.id.starship_item -> navController.navigate(R.id.showStarshipFragment)
             R.id.film_item -> navController.navigate(R.id.showFilmFragment)
-            else -> Toast.makeText(this, "Menu default", Toast.LENGTH_SHORT).show()
+            else -> Toast.makeText(this, MENU_DEFAULT, Toast.LENGTH_SHORT).show()
         }
         return true
     }

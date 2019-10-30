@@ -8,13 +8,14 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import com.example.starwarsapi.R
-import com.example.starwarsapi.application.onScrollListener
-import com.example.starwarsapi.application.onSearchDelayedOrCanceledListener
-import com.example.starwarsapi.models.Vehicles
+import com.example.starwarsapi.application.xt.ERRO_DESCONHECIDO
+import com.example.starwarsapi.application.xt.onScrollListener
+import com.example.starwarsapi.application.xt.onSearchDelayedOrCanceledListener
+import com.example.starwarsapi.models.vehicle.Vehicles
 import com.example.starwarsapi.presentation.ShowVehicleViewModel
-import com.example.starwarsapi.presentation.ViewModelStatusEnum
-import com.example.starwarsapi.presentation.ViewModelStatusEnum.*
-import com.example.starwarsapi.presentation.ViewState
+import com.example.starwarsapi.presentation.base.ViewModelStatusEnum
+import com.example.starwarsapi.presentation.base.ViewModelStatusEnum.*
+import com.example.starwarsapi.presentation.base.ViewState
 import com.example.starwarsapi.ui.adapter.ListVehicleAdapter
 import kotlinx.android.synthetic.main.fragment_show_people.rvSearchActivityList
 import kotlinx.android.synthetic.main.fragment_show_vehicle.*
@@ -29,7 +30,7 @@ class ShowVehicleFragment : BaseFragment() {
                 ShowVehicleFragmentDirections.actionShowVehicleFragmentToDetailVehicleFragment(
                     vehicles
                 )
-            view?.findNavController()?.navigate(action)
+            requireView().findNavController().navigate(action)
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,9 +43,9 @@ class ShowVehicleFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecycleView()
         svVehicle.onSearchDelayedOrCanceledListener {
-            it?.let { it1 ->
+            it?.let { search ->
                 adapter.list.clear()
-                viewModel.getListVehicle(it1)
+                viewModel.getListVehicle(search)
             }
 
             if (it == "") {
@@ -80,6 +81,7 @@ class ShowVehicleFragment : BaseFragment() {
                 SUCCESS -> openNextActivity(viewState)
                 ERROR -> onError(viewState.error)
                 LOADING -> showLoading()
+                else -> Unit
             }
         })
     }
@@ -89,7 +91,7 @@ class ShowVehicleFragment : BaseFragment() {
     }
 
     private fun onError(error: Throwable?) {
-        Toast.makeText(context, error?.message ?: "Erro desconhecido", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, error?.message ?:getString(R.string.erro_desconhecido), Toast.LENGTH_SHORT).show()
         progressBar.visibility = View.GONE
     }
 

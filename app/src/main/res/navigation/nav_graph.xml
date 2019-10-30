@@ -101,7 +101,7 @@
         tools:layout="@layout/detail_people_fragment">
         <argument
             android:name="People"
-            app:argType="com.example.starwarsapi.models.People" />
+            app:argType="com.example.starwarsapi.models.people.People" />
         <action
             android:id="@+id/action_detailPeopleFragment_to_detailFilmFragment"
             app:destination="@id/detailFilmFragment" />
@@ -116,7 +116,7 @@
         tools:layout="@layout/detail_starship_fragment" >
         <argument
             android:name="Starship"
-            app:argType="com.example.starwarsapi.models.Starships" />
+            app:argType="com.example.starwarsapi.models.starship.Starships" />
         <action
             android:id="@+id/action_detailStarshipFragment_to_detailPeopleFragment"
             app:destination="@id/detailPeopleFragment" />
@@ -131,7 +131,7 @@
         tools:layout="@layout/detail_vehicle_fragment" >
         <argument
             android:name="Vehicle"
-            app:argType="com.example.starwarsapi.models.Vehicles" />
+            app:argType="com.example.starwarsapi.models.vehicle.Vehicles" />
         <action
             android:id="@+id/action_detailVehicleFragment_to_detailFilmFragment"
             app:destination="@id/detailFilmFragment" />
@@ -146,7 +146,7 @@
         tools:layout="@layout/detail_planet_fragment" >
         <argument
             android:name="Planet"
-            app:argType="com.example.starwarsapi.models.Planets" />
+            app:argType="com.example.starwarsapi.models.planet.Planets" />
         <action
             android:id="@+id/action_detailPlanetFragment_to_detailFilmFragment"
             app:destination="@id/detailFilmFragment" />
@@ -161,7 +161,7 @@
         tools:layout="@layout/detail_specie_fragment" >
         <argument
             android:name="Specie"
-            app:argType="com.example.starwarsapi.models.Species" />
+            app:argType="com.example.starwarsapi.models.specie.Species" />
         <action
             android:id="@+id/action_detailSpecieFragment_to_detailFilmFragment"
             app:destination="@id/detailFilmFragment" />
@@ -176,7 +176,7 @@
         tools:layout="@layout/detail_film_fragment" >
         <argument
             android:name="Film"
-            app:argType="com.example.starwarsapi.models.Films" />
+            app:argType="com.example.starwarsapi.models.film.Films" />
         <action
             android:id="@+id/action_detailFilmFragment_to_detailPeopleFragment"
             app:destination="@id/detailPeopleFragment" />

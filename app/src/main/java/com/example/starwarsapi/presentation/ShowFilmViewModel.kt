@@ -2,10 +2,14 @@ package com.example.starwarsapi.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.starwarsapi.application.*
-import com.example.starwarsapi.domain.ShowFilmInteractor
-import com.example.starwarsapi.models.FilmResponse
-import com.example.starwarsapi.models.Films
+import com.example.starwarsapi.application.xt.*
+import com.example.starwarsapi.domain.film.ShowFilmInteractor
+import com.example.starwarsapi.models.film.FilmResponse
+import com.example.starwarsapi.models.film.Films
+import com.example.starwarsapi.presentation.base.BaseViewModel
+import com.example.starwarsapi.presentation.base.DispatcherProvider
+import com.example.starwarsapi.presentation.base.ViewModelStatusEnum
+import com.example.starwarsapi.presentation.base.ViewState
 import com.example.starwarsapi.service.Result
 
 

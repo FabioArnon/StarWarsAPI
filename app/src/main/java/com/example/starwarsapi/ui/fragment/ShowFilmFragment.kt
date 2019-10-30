@@ -8,13 +8,14 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import com.example.starwarsapi.R
-import com.example.starwarsapi.application.onScrollListener
-import com.example.starwarsapi.application.onSearchDelayedOrCanceledListener
-import com.example.starwarsapi.models.Films
+import com.example.starwarsapi.application.xt.ERRO_DESCONHECIDO
+import com.example.starwarsapi.application.xt.onScrollListener
+import com.example.starwarsapi.application.xt.onSearchDelayedOrCanceledListener
+import com.example.starwarsapi.models.film.Films
 import com.example.starwarsapi.presentation.ShowFilmViewModel
-import com.example.starwarsapi.presentation.ViewModelStatusEnum
-import com.example.starwarsapi.presentation.ViewModelStatusEnum.*
-import com.example.starwarsapi.presentation.ViewState
+import com.example.starwarsapi.presentation.base.ViewModelStatusEnum
+import com.example.starwarsapi.presentation.base.ViewModelStatusEnum.*
+import com.example.starwarsapi.presentation.base.ViewState
 import com.example.starwarsapi.ui.adapter.ListFilmAdapter
 import kotlinx.android.synthetic.main.fragment_show_film.*
 import kotlinx.android.synthetic.main.fragment_show_people.rvSearchActivityList
@@ -29,7 +30,7 @@ class ShowFilmFragment : BaseFragment() {
         ListFilmAdapter(mutableListOf()) {
             val film = it
             val action = ShowFilmFragmentDirections.actionShowFilmFragmentToDetailFilmFragment(film)
-            view?.findNavController()?.navigate(action)
+            requireView().findNavController().navigate(action)
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,9 +43,9 @@ class ShowFilmFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecycleView()
         svFilm.onSearchDelayedOrCanceledListener {
-            it?.let { it1 ->
+            it?.let { search ->
                 adapter.list.clear()
-                viewModel.getListFilms(it1)
+                viewModel.getListFilms(search)
             }
 
             if (it == "") {
@@ -81,6 +82,7 @@ class ShowFilmFragment : BaseFragment() {
                 SUCCESS -> openNextActivity(viewState)
                 ERROR -> onError(viewState.error)
                 LOADING -> showLoading()
+                else -> Unit
             }
         })
     }
@@ -90,7 +92,7 @@ class ShowFilmFragment : BaseFragment() {
     }
 
     private fun onError(error: Throwable?) {
-        Toast.makeText(context, error?.message ?: "Erro desconhecido", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, error?.message ?:getString(R.string.erro_desconhecido), Toast.LENGTH_SHORT).show()
         progressBar.visibility = View.GONE
     }
 

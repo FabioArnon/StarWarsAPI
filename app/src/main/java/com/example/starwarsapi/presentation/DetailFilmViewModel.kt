@@ -2,20 +2,18 @@ package com.example.starwarsapi.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.starwarsapi.application.interactor
-import com.example.starwarsapi.application.postError
-import com.example.starwarsapi.application.postStatus
-import com.example.starwarsapi.application.postSuccess
-import com.example.starwarsapi.domain.DetailFilmInteractor
-import com.example.starwarsapi.domain.ShowFilmInteractor
-import com.example.starwarsapi.models.Films
-import com.example.starwarsapi.models.People
-import com.example.starwarsapi.models.Starships
-import com.example.starwarsapi.repository.ShowPeopleRepository
-import com.example.starwarsapi.repository.ShowStarshipRepository
+import com.example.starwarsapi.application.xt.interactor
+import com.example.starwarsapi.application.xt.postError
+import com.example.starwarsapi.application.xt.postStatus
+import com.example.starwarsapi.application.xt.postSuccess
+import com.example.starwarsapi.domain.film.DetailFilmInteractor
+import com.example.starwarsapi.models.people.People
+import com.example.starwarsapi.models.starship.Starships
+import com.example.starwarsapi.presentation.base.BaseViewModel
+import com.example.starwarsapi.presentation.base.DispatcherProvider
+import com.example.starwarsapi.presentation.base.ViewModelStatusEnum
+import com.example.starwarsapi.presentation.base.ViewState
 import com.example.starwarsapi.service.Result
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class DetailFilmViewModel(
     dispatcherProvider: DispatcherProvider
@@ -69,7 +67,7 @@ class DetailFilmViewModel(
     }
 
     private fun onSuccessGetListStarshipId(data: List<Starships>) {
-        data?.let {
+        data.let {
             if (!data.isNullOrEmpty()) {
                 starshipLiveData.postSuccess(data)
             } else {
