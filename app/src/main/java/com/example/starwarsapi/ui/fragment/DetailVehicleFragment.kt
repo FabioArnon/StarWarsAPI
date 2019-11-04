@@ -76,7 +76,7 @@ class DetailVehicleFragment : BaseFragment() {
                 ViewModelStatusEnum.SUCCESS -> setNewItemFilm(viewState)
                 ViewModelStatusEnum.ERROR -> onError(viewState.error)
                 ViewModelStatusEnum.ERROR_LIST_EMPTY ->
-                    Toast.makeText(context,getString(R.string.erro_desconhecido), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, getString(R.string.erro_desconhecido), Toast.LENGTH_SHORT).show()
 
                 else -> Unit
             }
@@ -86,7 +86,7 @@ class DetailVehicleFragment : BaseFragment() {
                 ViewModelStatusEnum.SUCCESS -> setNewItemPilot(viewState)
                 ViewModelStatusEnum.ERROR -> onError(viewState.error)
                 ViewModelStatusEnum.ERROR_LIST_EMPTY ->
-                    Toast.makeText(context,getString(R.string.erro_desconhecido), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, getString(R.string.erro_desconhecido), Toast.LENGTH_SHORT).show()
                 else -> Unit
             }
         })

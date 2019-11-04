@@ -13,16 +13,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity android:name=".ui.fragment.ShowFilmFragment" />
         <activity android:name=".ui.fragment.ShowSpecieFragment" />
         <activity android:name=".ui.fragment.ShowVehicleFragment" />
         <activity android:name=".ui.fragment.ShowStarshipFragment" />
         <activity android:name=".ui.fragment.ShowPlanetFragment" />
         <activity android:name=".ui.fragment.ShowPeopleFragment" />
-        <activity android:name=".ui.MainActivity">
+        <activity android:name=".ui.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>

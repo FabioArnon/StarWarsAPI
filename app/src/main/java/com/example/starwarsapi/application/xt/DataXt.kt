@@ -22,9 +22,8 @@ suspend fun <T> safeAppCall(call: suspend () -> Response<T>): Result<T> {
     }
 }
 
-fun pages(count: Int): Int {
-    return ceil(count.div(10.0)).roundToInt()
-}
+fun pages(count: Int): Int = ceil(count.div(10.0)).roundToInt()
+
 
 fun <T> MutableLiveData<ViewState<T, ViewModelStatusEnum>>.postSuccess(data: T) {
     this.postValue(
