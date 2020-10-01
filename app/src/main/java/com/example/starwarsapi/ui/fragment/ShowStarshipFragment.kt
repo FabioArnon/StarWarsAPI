@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import com.example.starwarsapi.R
-import com.example.starwarsapi.application.xt.ERRO_DESCONHECIDO
 import com.example.starwarsapi.application.xt.onScrollListener
 import com.example.starwarsapi.application.xt.onSearchDelayedOrCanceledListener
 import com.example.starwarsapi.models.starship.Starships

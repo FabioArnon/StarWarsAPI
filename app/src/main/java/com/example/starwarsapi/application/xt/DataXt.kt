@@ -55,4 +55,4 @@ fun <T> MutableLiveData<ViewState<T, ViewModelStatusEnum>>.postStatus(viewModelS
     )
 }
 
-inline fun  <reified I> BaseViewModel.interactor() = inject<I> { parametersOf(scope) }
+inline fun <reified I> BaseViewModel.interactor() = inject<I> { parametersOf(scope) }

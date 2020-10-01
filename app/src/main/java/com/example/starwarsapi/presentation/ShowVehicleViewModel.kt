@@ -56,7 +56,6 @@ class ShowVehicleViewModel(
         }
     }
 
-
     override fun nextPage() {
         super.nextPage()
         if (maxPage >= currentPage) {
